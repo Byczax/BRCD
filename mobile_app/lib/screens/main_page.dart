@@ -15,7 +15,7 @@ class _LoggedInViewState extends State<LoggedInView> {
 
   final List<Widget> _screens = [
     const InventoryList(),
-    const NewItem(),
+    const BarCodeScreen(),
     const SettingsWidget()
   ];
 

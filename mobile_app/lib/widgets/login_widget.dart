@@ -13,6 +13,7 @@ class LoginWidget extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
+            key: const Key("image-box"),
             width: 200,
             height: 200,
             child: Image.asset(
@@ -23,18 +24,24 @@ class LoginWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: _padding),
             child: Text(
-              "Witaj w aplikacji BRCD",
+              "Welcome to BRCD app",
+              key: const Key("welcome-text"),
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ),
           ElevatedButton(
-            onPressed: () {},
+            key: const Key("log-in-button"),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/logged_in');
+            },
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     //to set border radius to button
                     borderRadius: BorderRadius.circular(30)),
                 padding: EdgeInsets.all(_buttonPadding)),
-            child: const Text("Autoryzuj się googlem"),
+            child: const Text(
+              "Log with Google",
+            ),
           )
         ],
       ),
