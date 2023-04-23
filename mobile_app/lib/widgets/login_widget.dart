@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:mobile_app/utils/google_sign_in.dart";
+import "package:provider/provider.dart";
 
 class LoginWidget extends StatelessWidget {
   const LoginWidget({Key? key}) : super(key: key);
@@ -7,7 +9,7 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Scaffold( body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,7 +34,9 @@ class LoginWidget extends StatelessWidget {
           ElevatedButton(
             key: const Key("log-in-button"),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/logged_in');
+              final provider =
+              Provider.of<GoogleSignInProvider>(context, listen: false);
+              provider.googleLogin();
             },
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -45,6 +49,6 @@ class LoginWidget extends StatelessWidget {
           )
         ],
       ),
-    );
+    ));
   }
 }

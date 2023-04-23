@@ -3,9 +3,18 @@ import 'package:mobile_app/screens/auth_screen.dart';
 import 'package:mobile_app/screens/main_views/add_new_item.dart';
 import 'package:mobile_app/screens/main_page.dart';
 import 'package:mobile_app/screens/main_views/new_item_screen.dart';
+import 'package:mobile_app/utils/google_sign_in.dart';
 import 'package:mobile_app/widgets/item_form.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+ // ...
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-void main() {
   runApp(const MyApp());
 }
 
@@ -14,7 +23,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ChangeNotifierProvider(
+      create: (context) => GoogleSignInProvider(),
+      child: MaterialApp(
       title: 'BRCD scanner',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -25,6 +36,6 @@ class MyApp extends StatelessWidget {
         "/logged_in": (context) => const LoggedInView(),
         "/logged_in/form": (context) => const NewItemScreen()
       },
-    );
+    ));
   }
 }

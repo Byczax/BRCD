@@ -9,9 +9,6 @@ class BarCodeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Scanner"),
-        ),
         body: const BarcodeScan());
   }
 }
