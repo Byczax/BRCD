@@ -8,7 +8,6 @@ class BarCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: const BarcodeScan());
+    return Scaffold(body: const BarcodeScan());
   }
 }

@@ -9,7 +9,8 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( body: Center(
+    return Scaffold(
+        body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,7 +36,7 @@ class LoginWidget extends StatelessWidget {
             key: const Key("log-in-button"),
             onPressed: () {
               final provider =
-              Provider.of<GoogleSignInProvider>(context, listen: false);
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
               provider.googleLogin();
             },
             style: ElevatedButton.styleFrom(

@@ -41,6 +41,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: "direct main"
+    description:
+      name: cloud_firestore
+      sha256: "17b4bac19f367ba1bd84239493a9a4182730221e4780334dd9cd57c4f13eccb7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.2"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: "76ba7b9dd43ce7f07e75a2349f3eb3e2c61e1bea88fec4798c3377cccf44cd7a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.12.1"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: "0c1305722339e0b3fc0ce62bf6233b3f8762cc105a26af02171b849e6a3b3727"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.2"
   collection:
     dependency: transitive
     description:
@@ -138,10 +162,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_plugin_android_lifecycle
-      sha256: c224ac897bed083dabf11f238dd11a239809b446740be0c2044608c50029ffdf
+      sha256: "2818f5233cf8fa5fc51f6d78ce0028feb4e7c18d0b6d40b57b91f366eea7e656"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.12"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -172,10 +196,10 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: "8e46e791f54ce83c05dcc41430bba943c3aafc49b9b867c4d10b395968398b4a"
+      sha256: "1c9b7953700cf2c6d164f1a55bd633a8e84495bc465827169cd8ad5dfec57c7d"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.11"
+    version: "6.1.13"
   google_sign_in_ios:
     dependency: transitive
     description:

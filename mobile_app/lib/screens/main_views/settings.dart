@@ -15,51 +15,50 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: CheckboxListTile(
-                  key: Key("confirmation-checkbox"),
-                  value: _requireConfirmation,
-                  onChanged: (value) {
-                    setState(() {
-                      _requireConfirmation = value!;
-                    });
-                  },
-                  title: Text("Pokazuj potwierdzenie informacji"),
-                  controlAffinity: ListTileControlAffinity.leading),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: CheckboxListTile(
-                  key: Key("save-checkbox"),
-                  value: _saveInformation,
-                  onChanged: (value) {
-                    setState(() {
-                      _saveInformation = value!;
-                    });
-                  },
-                  title: Text("Zapisuj zeskanowane produkty"),
-                  controlAffinity: ListTileControlAffinity.leading),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: CheckboxListTile(
-                key: Key("offline-checkbox"),
-                value: _isOffline,
-                onChanged: (value) {
-                  setState(() {
-                    _isOffline = value!;
-                  });
-                },
-                title: Text("Tryb offline"),
-                controlAffinity: ListTileControlAffinity.leading,
-              ),
-            ),
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: CheckboxListTile(
+              key: Key("confirmation-checkbox"),
+              value: _requireConfirmation,
+              onChanged: (value) {
+                setState(() {
+                  _requireConfirmation = value!;
+                });
+              },
+              title: Text("Pokazuj potwierdzenie informacji"),
+              controlAffinity: ListTileControlAffinity.leading),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: CheckboxListTile(
+              key: Key("save-checkbox"),
+              value: _saveInformation,
+              onChanged: (value) {
+                setState(() {
+                  _saveInformation = value!;
+                });
+              },
+              title: Text("Zapisuj zeskanowane produkty"),
+              controlAffinity: ListTileControlAffinity.leading),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          child: CheckboxListTile(
+            key: Key("offline-checkbox"),
+            value: _isOffline,
+            onChanged: (value) {
+              setState(() {
+                _isOffline = value!;
+              });
+            },
+            title: Text("Tryb offline"),
+            controlAffinity: ListTileControlAffinity.leading,
+          ),
+        ),
+      ],
+    ));
   }
 }

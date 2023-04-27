@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '467734467088',
     projectId: 'brcd420',
     storageBucket: 'brcd420.appspot.com',
-    iosClientId: '467734467088-bivhrd65qtvrf0kq6sanm7r1gg3uigib.apps.googleusercontent.com',
+    iosClientId:
+        '467734467088-bivhrd65qtvrf0kq6sanm7r1gg3uigib.apps.googleusercontent.com',
     iosBundleId: 'com.example.mobileApp',
   );
 }

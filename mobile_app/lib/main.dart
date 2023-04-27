@@ -8,7 +8,8 @@ import 'package:mobile_app/widgets/item_form.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
- // ...
+
+// ...
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -24,18 +25,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
-      child: MaterialApp(
-      title: 'BRCD scanner',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: "/",
-      routes: {
-        "/": (context) => const AuthScreen(),
-        "/logged_in": (context) => const LoggedInView(),
-        "/logged_in/form": (context) => const NewItemScreen()
-      },
-    ));
+        create: (context) => GoogleSignInProvider(),
+        child: MaterialApp(
+          title: 'BRCD scanner',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          initialRoute: "/",
+          routes: {
+            "/": (context) => const AuthScreen(),
+            "/logged_in": (context) => const LoggedInView(),
+            "/logged_in/form": (context) => const NewItemScreen()
+          },
+        ));
   }
 }

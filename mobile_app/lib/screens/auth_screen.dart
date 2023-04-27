@@ -23,6 +23,7 @@ class AuthScreen extends StatelessWidget {
           return const LoginWidget();
         }
       },
-    );;
+    );
+    ;
   }
 }

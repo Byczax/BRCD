@@ -8,8 +8,7 @@ class MyDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Remove"),
-      content: Text(
-          "Are you sure that you want to remove item ${itemName}?"),
+      content: Text("Are you sure that you want to remove item ${itemName}?"),
       actions: [
         TextButton(
           style: TextButton.styleFrom(
@@ -30,6 +29,7 @@ class MyDialog extends StatelessWidget {
           },
         )
       ],
-    );;
+    );
+    ;
   }
 }

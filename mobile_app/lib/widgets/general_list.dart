@@ -1,33 +1,46 @@
 import "package:flutter/material.dart";
+import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/utils/item.dart';
 import 'package:mobile_app/widgets/dialog.dart';
 
 class GeneralList extends StatelessWidget {
   const GeneralList({Key? key, required this.items}) : super(key: key);
   // nazwa przedmiotu, data przyjęcia
-  final List<Item> items;
+  final Future<List<Inventory>> items;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(items[index].name),
-            trailing: IconButton(
-              icon: const Icon(Icons.delete),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return MyDialog(itemName: items[index].name);
-                    });
-              },
-            ),
-            onTap: () {
-              print("I am here $index");
-            },
-          );
-        });
+    return FutureBuilder(
+        future: items,
+        builder: ((context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            List<Inventory> inventories = snapshot.data as List<Inventory>;
+            if (inventories.isEmpty) {
+              return const Center(
+                child: Text("You have no inventories"),
+              );
+            }
+            return ListView.builder(
+                itemCount: inventories.length,
+                itemBuilder: (context, index) => ListTile(
+                      title: Text(inventories[index].title),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return MyDialog(
+                                    itemName: inventories[index].title);
+                              });
+                        },
+                      ),
+                    ));
+          }
+        }));
   }
 }

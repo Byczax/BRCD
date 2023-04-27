@@ -21,11 +21,7 @@ class _LoggedInViewState extends State<LoggedInView> {
     const BarCodeScreen(),
     const SettingsWidget()
   ];
-  final List<String> _appBarTitles = [
-    "Inventory",
-    "Scanner",
-    "Settings"
-  ];
+  final List<String> _appBarTitles = ["Inventory", "Scanner", "Settings"];
 
   final _navbarItems = [
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
@@ -34,21 +30,24 @@ class _LoggedInViewState extends State<LoggedInView> {
           Icons.center_focus_strong_outlined,
         ),
         label: "Scan"),
-    const BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+    const BottomNavigationBarItem(
+        icon: Icon(Icons.settings), label: "Settings"),
     // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_appBarTitles[_currentIndex]),
-        actions: [IconButton(icon: Icon(Icons.logout), onPressed: (){
-          final provider =
-          Provider.of<GoogleSignInProvider>(context, listen: false);
-          provider.logout();
-        },),]
-      ),
+      appBar: AppBar(title: Text(_appBarTitles[_currentIndex]), actions: [
+        IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {
+            final provider =
+                Provider.of<GoogleSignInProvider>(context, listen: false);
+            provider.logout();
+          },
+        ),
+      ]),
       body: IndexedStack(
         key: const Key("stack"),
         index: _currentIndex,
@@ -63,9 +62,9 @@ class _LoggedInViewState extends State<LoggedInView> {
           unselectedItemColor: Colors.white60,
           showUnselectedLabels: false,
           onTap: (index) {
-            if(index == 3){
+            if (index == 3) {
               final provider =
-              Provider.of<GoogleSignInProvider>(context, listen: false);
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
               provider.logout();
             }
             setState(() {
