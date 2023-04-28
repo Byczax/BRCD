@@ -4,6 +4,7 @@ import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/item.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:mobile_app/widgets/general_list.dart';
+import 'package:mobile_app/widgets/inventory_details_view.dart';
 
 class InventoryList extends StatefulWidget {
   const InventoryList({Key? key}) : super(key: key);
@@ -36,6 +37,13 @@ class _InventoryListState extends State<InventoryList> {
                   itemCount: inventories.length,
                   itemBuilder: (context, index) => ListTile(
                         title: Text(inventories[index].title),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => InventoryDetailsView(
+                                      inventory: inventories[index])));
+                        },
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {
