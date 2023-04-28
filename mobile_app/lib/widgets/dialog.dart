@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/db/db_handler.dart';
 
 class MyDialog extends StatelessWidget {
-  final itemName;
-  const MyDialog({Key? key, required this.itemName}) : super(key: key);
+  final String itemName;
+  final String documentId;
+  final Function() removeFunc;
+  const MyDialog({Key? key, required this.itemName, required this.documentId,  required  this.removeFunc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Remove"),
-      content: Text("Are you sure that you want to remove item ${itemName}?"),
+      title: const Text("Remove"),
+      content: Text("Are you sure that you want to remove $itemName?"),
       actions: [
         TextButton(
           style: TextButton.styleFrom(
@@ -24,8 +27,9 @@ class MyDialog extends StatelessWidget {
             textStyle: Theme.of(context).textTheme.labelLarge,
           ),
           child: const Text('Yes'),
-          onPressed: () {
-            Navigator.of(context).pop();
+          onPressed: (){
+            removeFunc();
+              Navigator.of(context).pop();
           },
         )
       ],

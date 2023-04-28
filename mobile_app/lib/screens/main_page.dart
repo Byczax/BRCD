@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/main_views/add_new_item.dart';
-import 'package:mobile_app/screens/main_views/scanned_objects_list.dart';
+import 'package:mobile_app/screens/main_views/inventory_list_view.dart';
 import 'package:mobile_app/screens/main_views/settings.dart';
 import 'package:provider/provider.dart';
 

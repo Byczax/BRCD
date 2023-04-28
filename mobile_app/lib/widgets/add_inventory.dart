@@ -3,11 +3,11 @@ import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/db_handler.dart';
 
 class AddInventory extends StatelessWidget {
-  AddInventory({Key? key}) : super(key: key);
+  AddInventory({Key? key, required this.onCreate}) : super(key: key);
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  final Function(Inventory) onCreate;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -52,10 +52,8 @@ class AddInventory extends StatelessWidget {
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 final inventory = Inventory(
-                    _titleController.text, _descriptionController.text, []);
-                final db = DBHandler();
-                // TODO: Add notification basing on bool variable
-                bool success = await db.addInventory(inventory);
+                    _titleController.text, _descriptionController.text, [], null);
+                  onCreate(inventory);
                 Navigator.pop(context);
               }
               // showSimpleNotification();

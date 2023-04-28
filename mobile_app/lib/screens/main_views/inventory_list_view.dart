@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+import 'package:mobile_app/db/data_models.dart';
+import 'package:mobile_app/db/db_handler.dart';
+import 'package:mobile_app/utils/item.dart';
+import 'package:mobile_app/widgets/add_inventory.dart';
+import 'package:mobile_app/widgets/general_list.dart';
+
+class InventoryList extends StatefulWidget {
+  const InventoryList({Key? key}) : super(key: key);
+
+  @override
+  State<InventoryList> createState() => _InventoryListState();
+}
+
+class _InventoryListState extends State<InventoryList> {
+  final _db = DBHandler();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FutureBuilder(
+          future: _db.getInventories(),
+          builder: ((context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              List<Inventory> inventories = snapshot.data as List<Inventory>;
+              if (inventories.isEmpty) {
+                return const Center(
+                  child: Text("You have no inventories"),
+                );
+              }
+              return ListView.builder(
+                  itemCount: inventories.length,
+                  itemBuilder: (context, index) => ListTile(
+                        title: Text(inventories[index].title),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            onRemove(inventories[index].documentId);
+                          },
+                        ),
+                      ));
+            }
+          })),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext builder) =>
+                  AddInventory(onCreate: onCreate));
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+
+  // TODO: Add behaviour when we deal with cache
+  void onCreate(Inventory inventory) async {
+    bool success = await _db.addInventory(inventory);
+    if (success) {
+      setState(() {});
+    }
+  }
+
+  void onRemove(String documentId) async {
+    bool success = await _db.removeInventory(documentId);
+
+    if (success) {
+      setState(() {});
+    }
+  }
+}

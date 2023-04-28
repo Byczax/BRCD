@@ -1,22 +1,27 @@
 class Inventory {
   final String title;
   final String description;
-  String? _userUid;
+  String? userUid;
+  String? _inventoryId;
 
-  set userUid(String? value) {
-    _userUid = value;
+  set id(String id) {
+    _inventoryId = id;
   }
+  get documentId => _inventoryId;
+
 
   final dynamic items;
-  Inventory(this.title, this.description, this.items, [_userUid]);
+  Inventory(this.title, this.description, this.items, this.userUid);
 
   Map<String, dynamic> toMap() => {
         "title": title,
         "description": description,
-        "owner": _userUid,
+        "owner": userUid,
         "items": []
       };
 
-  factory Inventory.fromJSON(Map<String, dynamic> data) => Inventory(
-      data["title"], data["description"], data["items"], data["owner"]);
+  factory Inventory.fromJSON(Map<String, dynamic> data) {
+    return Inventory(
+        data["title"], data["description"], data["items"], data["owner"]);
+  }
 }

@@ -4,7 +4,9 @@ import 'package:mobile_app/utils/item.dart';
 import 'package:mobile_app/widgets/dialog.dart';
 
 class GeneralList extends StatelessWidget {
-  const GeneralList({Key? key, required this.items}) : super(key: key);
+  Function(String documentId) onRemove;
+
+  GeneralList({Key? key, required this.items, required this.onRemove}) : super(key: key);
   // nazwa przedmiotu, data przyjęcia
   final Future<List<Inventory>> items;
 
@@ -31,12 +33,7 @@ class GeneralList extends StatelessWidget {
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return MyDialog(
-                                    itemName: inventories[index].title);
-                              });
+                          onRemove(inventories[index].documentId);
                         },
                       ),
                     ));

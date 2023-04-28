@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/auth_screen.dart';
-import 'package:mobile_app/screens/main_views/add_new_item.dart';
 import 'package:mobile_app/screens/main_page.dart';
 import 'package:mobile_app/screens/main_views/new_item_screen.dart';
 import 'package:mobile_app/utils/google_sign_in.dart';
-import 'package:mobile_app/widgets/item_form.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,7 +32,7 @@ class MyApp extends StatelessWidget {
           initialRoute: "/",
           routes: {
             "/": (context) => const AuthScreen(),
-            "/logged_in": (context) => const LoggedInView(),
+            // "/logged_in": (context) => const LoggedInView(),
             "/logged_in/form": (context) => const NewItemScreen()
           },
         ));
