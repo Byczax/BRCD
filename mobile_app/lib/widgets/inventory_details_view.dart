@@ -67,10 +67,10 @@ class InventoryDetailsView extends StatelessWidget {
             )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(context: context, builder: (BuildContext builder) =>
-              Dialog(
-                
-              ))
+          // showDialog(context: context, builder: (BuildContext builder) =>
+          //     Dialog(
+          //
+          //     ))
         },
         child: Icon(Icons.add),
       ),

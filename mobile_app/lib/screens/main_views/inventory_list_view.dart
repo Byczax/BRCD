@@ -3,7 +3,6 @@ import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/item.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
-import 'package:mobile_app/widgets/general_list.dart';
 import 'package:mobile_app/widgets/inventory_details_view.dart';
 
 class InventoryList extends StatefulWidget {
@@ -54,11 +53,12 @@ class _InventoryListState extends State<InventoryList> {
             }
           })),
       floatingActionButton: FloatingActionButton(
+        heroTag: "newInventory",
         onPressed: () {
           showDialog(
               context: context,
               builder: (BuildContext builder) =>
-                  AddInventory(onCreate: onCreate));
+                  AddInventory(titleText: "Add new inventory", onCreate: onCreate));
         },
         child: Icon(Icons.add),
       ),
@@ -66,8 +66,10 @@ class _InventoryListState extends State<InventoryList> {
   }
 
   // TODO: Add behaviour when we deal with cache
-  void onCreate(Inventory inventory) async {
-    bool success = await _db.addInventory(inventory);
+  void onCreate(List<String> inventory) async {
+    final temp = Inventory(
+        inventory[0], inventory[1], [], null);
+    bool success = await _db.addInventory(temp);
     if (success) {
       setState(() {});
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/main_views/add_new_item.dart';
 import 'package:mobile_app/screens/main_views/inventory_list_view.dart';
+import 'package:mobile_app/screens/main_views/item_types_list_view.dart';
 import 'package:mobile_app/screens/main_views/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -17,14 +18,16 @@ class _LoggedInViewState extends State<LoggedInView> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    InventoryList(),
+    const InventoryList(),
+    const ItemTypesListView(),
     const BarCodeScreen(),
-    const SettingsWidget()
+    const SettingsWidget(),
   ];
-  final List<String> _appBarTitles = ["Inventory", "Scanner", "Settings"];
+  final List<String> _appBarTitles = ["Inventory", "Item types", "Scanner", "Settings"];
 
   final _navbarItems = [
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+    const BottomNavigationBarItem(icon: Icon(Icons.book), label: "Types"),
     const BottomNavigationBarItem(
         icon: Icon(
           Icons.center_focus_strong_outlined,
@@ -40,7 +43,7 @@ class _LoggedInViewState extends State<LoggedInView> {
     return Scaffold(
       appBar: AppBar(title: Text(_appBarTitles[_currentIndex]), actions: [
         IconButton(
-          icon: Icon(Icons.logout),
+          icon: const Icon(Icons.logout),
           onPressed: () {
             final provider =
                 Provider.of<GoogleSignInProvider>(context, listen: false);
@@ -56,17 +59,18 @@ class _LoggedInViewState extends State<LoggedInView> {
       ),
       bottomNavigationBar: BottomNavigationBar(
           key: const Key("navigation-bar"),
+          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.blueAccent,
           currentIndex: _currentIndex,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white60,
           showUnselectedLabels: false,
           onTap: (index) {
-            if (index == 3) {
-              final provider =
-                  Provider.of<GoogleSignInProvider>(context, listen: false);
-              provider.logout();
-            }
+            // if (index == 3) {
+            //   final provider =
+            //       Provider.of<GoogleSignInProvider>(context, listen: false);
+            //   provider.logout();
+            // }
             setState(() {
               _currentIndex = index;
             });

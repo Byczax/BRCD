@@ -3,17 +3,18 @@ import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/db_handler.dart';
 
 class AddInventory extends StatelessWidget {
-  AddInventory({Key? key, required this.onCreate}) : super(key: key);
+  AddInventory({Key? key, required this.onCreate, required this.titleText}) : super(key: key);
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final String titleText;
   final _formKey = GlobalKey<FormState>();
-  final Function(Inventory) onCreate;
+  final Function(List<String>) onCreate;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Add new inventory"),
+      title: Text(titleText),
       content: Container(
-        height: 300,
+        height: 200,
         child: Form(
           key: _formKey,
           child: Column(
@@ -22,7 +23,7 @@ class AddInventory extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: TextFormField(
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: "Title"),
+                        border: OutlineInputBorder(), labelText: "Name"),
                     controller: _titleController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -51,12 +52,13 @@ class AddInventory extends StatelessWidget {
         TextButton(
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                final inventory = Inventory(
-                    _titleController.text, _descriptionController.text, [], null);
-                  onCreate(inventory);
+                List<String> parameters = [
+                  _titleController.text,
+                  _descriptionController.text
+                ];
+                  onCreate(parameters);
                 Navigator.pop(context);
               }
-              // showSimpleNotification();
             },
             child: Text("Create")),
         TextButton(
