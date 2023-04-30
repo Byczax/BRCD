@@ -24,6 +24,12 @@ class Inventory {
     return Inventory(
         data["title"], data["description"], data["items"], data["owner"]);
   }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return title;
+  }
 }
 
 class Item {
@@ -33,8 +39,9 @@ class Item {
   bool isRemoved = false;
   String authorId;
   String responsibleUser;
+  String itemTypeID;
   Item(this.description, this.createdDate, this.authorId, this.responsibleUser,
-      this.removedDate);
+      this.removedDate, this.itemTypeID);
 
   Map<String, dynamic> toMap()=>{
      "description": description,
@@ -42,7 +49,8 @@ class Item {
     "removedDate": removedDate,
     "isRemoved": isRemoved,
     "authorId": authorId,
-    "responsibleUser": responsibleUser
+    "responsibleUser": responsibleUser,
+    "itemTypeID": itemTypeID
   };
 
 
@@ -51,7 +59,8 @@ class Item {
       data["createdDate"],
       data["authorId"],
       data["responsibleUser"],
-      data["removedDate"]);
+      data["removedDate"],
+      data["itemTypeID"]);
 }
 // TODO: Think about sticking with ERD 1:1 or to change structure to have barcode as a field instead of as documentID
 // class Barcode{
@@ -68,6 +77,8 @@ class Item {
 class ItemType{
   String name;
   String description;
+
+  String? id;
   ItemType(this.name, this.description);
 
   factory ItemType.fromJSON(Map<String, dynamic> data) => ItemType(data["name"], data["description"]);
@@ -76,4 +87,10 @@ class ItemType{
     "name": name,
     "description": description
   };
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return name;
+  }
 }

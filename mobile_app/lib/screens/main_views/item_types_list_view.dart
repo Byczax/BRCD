@@ -36,7 +36,7 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
                     onTap: () {
                       // TODO: Add here dialog which will display details
                       showDialog(context: context, builder: (BuildContext builder) {
-                        return AlertDialog(title: Text(inventories[index].description),);
+                        return AlertDialog(content: Text(inventories[index].description),);
                       });
                     },
                     trailing: IconButton(

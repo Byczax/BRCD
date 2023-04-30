@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:mobile_app/screens/main_views/new_item_screen.dart';
 import 'package:mobile_app/utils/item_arguments.dart';
 
 class BarcodeScan extends StatefulWidget {
@@ -22,9 +23,8 @@ class _BarcodeScanState extends State<BarcodeScan> {
     }
 
     if (!mounted) return;
-
-    Navigator.pushNamed(context, "/logged_in/form",
-        arguments: ItemBarcode(barcode: barcodeScanRes));
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => NewItemScreen( barcode:  ItemBarcode(barcode: barcodeScanRes),)));
   }
 
   @override

@@ -43,17 +43,22 @@ class DBHandler {
       return false;
     }
   }
-
-  Future<Item?> checkIfBarcodeExists(String barcode) async {
+  // TODO: later it will be good idea to handle it as concrete object instead of dynamic
+  Future<dynamic> checkIfBarcodeExists(String barcode) async {
     try {
-      final document = await _db.collection(barcodesName).doc(barcode).get();
-      if (document.exists) {
-        final temp =  await _db.collection(itemName).doc(document["itemID"]).get();
+      final document = await _db.collection(barcodesName).where("barcode", isEqualTo: barcode).get();
+      print(document.docs.first.get("barcode"));
+      if (document.size != 0) {
+        //TODO: Napraw
+        final temp =  await _db.collection(itemName).doc(document.docs.first["item"]).get();
         return Item.fromJSON(temp.data()!);
-      };
+      }
+      else{
+        return false;
+      }
     } catch (e) {
       print("error");
-      return null;
+      return false;
     }
   }
 
@@ -70,8 +75,11 @@ class DBHandler {
 
   Future<List<ItemType>>getItemTypes() async{
     QuerySnapshot documentsSnapshot = await _db.collection(itemTypes).get();
-    final inventories = documentsSnapshot.docs.map((json)
-      =>ItemType.fromJSON(json.data() as Map<String, dynamic>)
+    final inventories = documentsSnapshot.docs.map((json) {
+      var temp = ItemType.fromJSON(json.data() as Map<String, dynamic>);
+      temp.id = json.id;
+      return temp;
+    }
     ).toList();
     return inventories;
   }
@@ -86,4 +94,22 @@ class DBHandler {
       return false;
     }
   }
+
+  Future<bool> addItem(Map<String, dynamic> data) async{
+    final item = Item(data["description"], DateTime.now(), _userUID!, _userUID!, null, data["itemTypeID"]);
+    final doc = _db.collection(itemName).doc();
+    await doc.set(item.toMap());
+    await _db.collection(barcodesName).doc().set({
+      "barcode": data["barcode"],
+      "item": doc.id
+    });
+    final list = await _db.collection(inventoryName).doc(data["listID"]).get();
+    final asObj = list.get("items") as List<dynamic>;
+    asObj.add(item.toMap());
+    await _db.collection(inventoryName).doc(data["listID"]).update({"items": asObj});
+    // print(asObj);
+
+    return true;
+  }
+
 }

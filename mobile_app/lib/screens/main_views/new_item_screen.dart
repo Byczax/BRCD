@@ -1,35 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/item.dart';
 import 'package:mobile_app/utils/item_arguments.dart';
 import 'package:mobile_app/widgets/item_form.dart';
 
 class NewItemScreen extends StatefulWidget {
-  const NewItemScreen({Key? key}) : super(key: key);
-
+  const NewItemScreen({Key? key, required this.barcode}) : super(key: key);
+  final ItemBarcode barcode;
   @override
   State<NewItemScreen> createState() => _NewItemScreenState();
 }
 
 class _NewItemScreenState extends State<NewItemScreen> {
   //TODO: Here handle case whether we found data in database or in local memory.
-  // We propably intent to check all the lists that we are having available.
-  final Future<Item> _calculation = Future<Item>.delayed(
-    const Duration(seconds: 2),
-    () => Item(
-        barcode: "12321511",
-        name: "Kurczak",
-        date: "25.01.2022",
-        type: "jedzenie",
-        value: "inf",
-        amount: "42",
-        description: "",
-        unit: "kg"),
-  );
+  final _db = DBHandler();
 
-  Future<void> _buildDialog(Item item) async {
-    Future.delayed(
-        const Duration(seconds: 0),
-        () => showDialog(
+  void _buildDialog(Item item) async {
+        showDialog(
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
@@ -61,7 +48,7 @@ class _NewItemScreenState extends State<NewItemScreen> {
                   ],
                 );
               },
-            ));
+            );
   }
 
   Widget _loadingScreen() => Center(
@@ -78,22 +65,23 @@ class _NewItemScreenState extends State<NewItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as ItemBarcode;
+    // final args = ModalRoute.of(context)!.settings.arguments as ItemBarcode;
     return Scaffold(
         appBar: AppBar(
           title: const Text("New item"),
         ),
-        body: FutureBuilder<Item>(
-            future: _calculation,
-            builder: (BuildContext context, AsyncSnapshot<Item> snapshot) {
+        body: FutureBuilder<dynamic>(
+            future: _db.checkIfBarcodeExists(widget.barcode.barcode),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data!.name.isNotEmpty) {
-                  _buildDialog(snapshot.data!);
+                if (snapshot.data! != false) {
+                  _buildDialog(snapshot.data! as Item);
                 }
-                return ItemForm(barcode: args.barcode);
+                return ItemForm(barcode: widget.barcode.barcode);
               } else if (snapshot.hasError) {
-                return const Text("No i dupa");
+                return const Text("Unexpected error");
               } else {
+                print("cos");
                 return _loadingScreen();
               }
             }) //ItemForm(barcode: args.barcode,),
