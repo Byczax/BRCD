@@ -40,6 +40,7 @@ class Item {
   String authorId;
   String responsibleUser;
   String itemTypeID;
+  ItemType? itemType;
   Item(this.description, this.createdDate, this.authorId, this.responsibleUser,
       this.removedDate, this.itemTypeID);
 
@@ -56,11 +57,18 @@ class Item {
 
   factory Item.fromJSON(Map<String, dynamic> data) => Item(
       data["description"],
-      data["createdDate"],
+      data["createdDate"].toDate(),
       data["authorId"],
       data["responsibleUser"],
       data["removedDate"],
       data["itemTypeID"]);
+      // "1,2,3",
+      // DateTime.now(),
+      // data["authorId"],
+      // data["authorId"],
+      // DateTime.now(),
+      // "cokolwiek"
+  // );
 }
 // TODO: Think about sticking with ERD 1:1 or to change structure to have barcode as a field instead of as documentID
 // class Barcode{

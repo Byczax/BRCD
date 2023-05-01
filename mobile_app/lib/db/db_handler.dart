@@ -47,17 +47,24 @@ class DBHandler {
   Future<dynamic> checkIfBarcodeExists(String barcode) async {
     try {
       final document = await _db.collection(barcodesName).where("barcode", isEqualTo: barcode).get();
-      print(document.docs.first.get("barcode"));
+      // print(document.docs.first.get("barcode"));
       if (document.size != 0) {
         //TODO: Napraw
-        final temp =  await _db.collection(itemName).doc(document.docs.first["item"]).get();
-        return Item.fromJSON(temp.data()!);
+        final temp =  await _db.collection(itemName).doc(document.docs.first.get("item")).get();
+        // print(temp.data());
+        final type = await _db.collection(itemTypes).doc(temp.data()!["itemTypeID"]).get();
+        final toReturn =  ItemType.fromJSON(type.data()!);
+        final cos = Item.fromJSON(temp.data()!);
+        cos.itemType = toReturn;
+        // print(cos.toMap());
+        // print("ss $toReturn");
+        return cos;
       }
       else{
         return false;
       }
     } catch (e) {
-      print("error");
+      print(e);
       return false;
     }
   }
@@ -111,5 +118,12 @@ class DBHandler {
 
     return true;
   }
+
+  // addFoundItem(Map<String, dynamic> data) async {
+  //   final item = Item(data["description"], DateTime.now(), _userUID!, _userUID!, null, data["itemTypeID"]);
+  //   final doc = _db.collection(itemName).doc();
+  //   await doc.set(item.toMap());
+  //
+  // }
 
 }
