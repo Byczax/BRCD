@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/db/data_models.dart';
+import 'package:mobile_app/db/data_models/inventory.dart';
+import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
-// import 'package:mobile_app/widgets/utils_widgets/generic_dropdown_button.dart';
 
 class FoundScreen extends StatefulWidget {
   FoundScreen({Key? key, required this.item, required this.barcode})

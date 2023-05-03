@@ -1,6 +1,8 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:mobile_app/db/data_models.dart";
 import "package:firebase_auth/firebase_auth.dart";
+import "package:mobile_app/db/data_models/inventory.dart";
+import "package:mobile_app/db/data_models/item.dart";
+import "package:mobile_app/db/data_models/item_type.dart";
 
 class DBHandler {
   final String inventoryName = "inventories";
@@ -47,17 +49,12 @@ class DBHandler {
   Future<dynamic> checkIfBarcodeExists(String barcode) async {
     try {
       final document = await _db.collection(barcodesName).where("barcode", isEqualTo: barcode).get();
-      // print(document.docs.first.get("barcode"));
       if (document.size != 0) {
-        //TODO: Napraw
         final temp =  await _db.collection(itemName).doc(document.docs.first.get("item")).get();
-        // print(temp.data());
         final type = await _db.collection(itemTypes).doc(temp.data()!["itemTypeID"]).get();
         final toReturn =  ItemType.fromJSON(type.data()!);
         final cos = Item.fromJSON(temp.data()!);
         cos.itemType = toReturn;
-        // print(cos.toMap());
-        // print("ss $toReturn");
         return cos;
       }
       else{
@@ -119,11 +116,15 @@ class DBHandler {
     return true;
   }
 
-  // addFoundItem(Map<String, dynamic> data) async {
-  //   final item = Item(data["description"], DateTime.now(), _userUID!, _userUID!, null, data["itemTypeID"]);
-  //   final doc = _db.collection(itemName).doc();
-  //   await doc.set(item.toMap());
-  //
-  // }
+  Future<ItemType?> getItemType(String itemTypeId) async {
+    try {
+      final doc = await _db.collection(itemTypes).doc(itemTypeId).get();
+      return ItemType.fromJSON(doc.data()!);
+    }
+    catch(e) {
+      print("Error at fetching");
+      return null;
+    }
+  }
 
 }
