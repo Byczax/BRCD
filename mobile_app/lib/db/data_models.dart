@@ -17,17 +17,17 @@ class Inventory {
         "title": title,
         "description": description,
         "owner": userUid,
-        "items": []
+        "items": items
       };
 
   factory Inventory.fromJSON(Map<String, dynamic> data) {
     return Inventory(
-        data["title"], data["description"], data["items"], data["owner"]);
+        data["title"], data["description"], data["items"],
+        data["owner"]);
   }
 
   @override
   String toString() {
-    // TODO: implement toString
     return title;
   }
 }
@@ -62,12 +62,6 @@ class Item {
       data["responsibleUser"],
       data["removedDate"],
       data["itemTypeID"]);
-      // "1,2,3",
-      // DateTime.now(),
-      // data["authorId"],
-      // data["authorId"],
-      // DateTime.now(),
-      // "cokolwiek"
   // );
 }
 // TODO: Think about sticking with ERD 1:1 or to change structure to have barcode as a field instead of as documentID
