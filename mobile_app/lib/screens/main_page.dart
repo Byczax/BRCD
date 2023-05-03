@@ -23,7 +23,12 @@ class _LoggedInViewState extends State<LoggedInView> {
     const BarCodeScreen(),
     const SettingsWidget(),
   ];
-  final List<String> _appBarTitles = ["Inventory", "Item types", "Scanner", "Settings"];
+  final List<String> _appBarTitles = [
+    "Inventory",
+    "Item types",
+    "Scanner",
+    "Settings"
+  ];
 
   final _navbarItems = [
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

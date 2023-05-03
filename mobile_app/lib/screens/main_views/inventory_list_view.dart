@@ -86,8 +86,7 @@ class _InventoryListState extends State<InventoryList> {
 
   // TODO: Add behaviour when we deal with cache
   void onCreate(List<String> inventory) async {
-    final temp = Inventory(
-        inventory[0], inventory[1], [], null);
+    final temp = Inventory(inventory[0], inventory[1], [], null);
     bool success = await _db.addInventory(temp);
     if (success) {
       setState(() {});

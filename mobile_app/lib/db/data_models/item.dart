@@ -12,16 +12,15 @@ class Item {
   Item(this.description, this.createdDate, this.authorId, this.responsibleUser,
       this.removedDate, this.itemTypeID);
 
-  Map<String, dynamic> toMap()=>{
-    "description": description,
-    "createdDate": createdDate,
-    "removedDate": removedDate,
-    "isRemoved": isRemoved,
-    "authorId": authorId,
-    "responsibleUser": responsibleUser,
-    "itemTypeID": itemTypeID
-  };
-
+  Map<String, dynamic> toMap() => {
+        "description": description,
+        "createdDate": createdDate,
+        "removedDate": removedDate,
+        "isRemoved": isRemoved,
+        "authorId": authorId,
+        "responsibleUser": responsibleUser,
+        "itemTypeID": itemTypeID
+      };
 
   factory Item.fromJSON(Map<String, dynamic> data) => Item(
       data["description"],
@@ -30,5 +29,4 @@ class Item {
       data["responsibleUser"],
       data["removedDate"],
       data["itemTypeID"]);
-// );
 }

@@ -30,7 +30,8 @@ class _FoundScreenState extends State<FoundScreen> {
     });
     print(inventory!.title);
   }
-  Future<void> onSubmit() async{
+
+  Future<void> onSubmit() async {
     Map<String, dynamic> dataCollected = {
       "itemTypeID": widget.item.itemTypeID,
       "dateCreated": DateTime.now().toUtc().toString(),
@@ -40,6 +41,7 @@ class _FoundScreenState extends State<FoundScreen> {
     };
     await _db.addItem(dataCollected);
   }
+
   //TODO: jeżeli będzie czas: pozmieniać kod tak aby co wybór nie wykonywał
   // operacji read'a z bazy danych
   Widget _dropDownButton<T>(
@@ -82,26 +84,25 @@ class _FoundScreenState extends State<FoundScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
-      child: Padding(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        child:
-        Column(
-
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding: EdgeInsets.symmetric(vertical: 10), child:
-            Text(
-              "Found item: ${widget.item.itemType!.name}",
-              style: Theme.of(context).textTheme.titleLarge,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                "Found item: ${widget.item.itemType!.name}",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                "Barcode: ${widget.barcode}",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10), child:
-            Text("Barcode: ${widget.barcode}",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-
-            ),
-
             Text(
               "Item Description",
               style: Theme.of(context).textTheme.headlineSmall,
@@ -111,28 +112,27 @@ class _FoundScreenState extends State<FoundScreen> {
                 height: 100,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child:          Text(widget.item.itemType!.description),
-                )
-            ),
+                  child: Text(widget.item.itemType!.description),
+                )),
             Text(
               "Item details description",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             TextFormField(
               controller: _controller,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder()
-              ),
+              decoration: InputDecoration(border: OutlineInputBorder()),
               maxLines: 5,
             ),
             _dropDownButton(inventory, _db.getInventories(), onChange),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(onPressed: () {
-                  onSubmit();
-                  Navigator.pop(context);
-                }, child: Text("Add to chosen list")),
+                ElevatedButton(
+                    onPressed: () {
+                      onSubmit();
+                      Navigator.pop(context);
+                    },
+                    child: Text("Add to chosen list")),
                 ElevatedButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -141,8 +141,8 @@ class _FoundScreenState extends State<FoundScreen> {
               ],
             )
           ],
-        ),),
+        ),
+      ),
     );
-
   }
 }

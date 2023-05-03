@@ -23,8 +23,12 @@ class _BarcodeScanState extends State<BarcodeScan> {
     }
 
     if (!mounted) return;
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => NewItemScreen( barcode:  ItemBarcode(barcode: barcodeScanRes),)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => NewItemScreen(
+                  barcode: ItemBarcode(barcode: barcodeScanRes),
+                )));
   }
 
   @override

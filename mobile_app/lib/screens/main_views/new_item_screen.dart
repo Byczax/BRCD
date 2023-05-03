@@ -18,39 +18,37 @@ class _NewItemScreenState extends State<NewItemScreen> {
   //TODO: Here handle case whether we found data in database or in local memory.
   final _db = DBHandler();
   void _buildDialog(ItemType item) async {
-        showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text('Item ${item.name} found in database'),
-                  content: Text(
-                      ' ${item.description}\n'
-                      // ' ${item.amount}\n'
-                      'What do you wish to do?'),
-                  actions: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      child: const Text("Don't add"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      child: const Text('Continue'),
-                      onPressed: () {
-                        Navigator.of(context)
-                            .pop();
-                      },
-                    ),
-                  ],
-                );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Item ${item.name} found in database'),
+          content: Text(' ${item.description}\n'
+              // ' ${item.amount}\n'
+              'What do you wish to do?'),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text("Don't add"),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
-            );
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Continue'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _loadingScreen() => Center(
@@ -77,12 +75,13 @@ class _NewItemScreenState extends State<NewItemScreen> {
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data! != false) {
-
-                  return FoundScreen(item: snapshot.data! as Item, barcode: widget.barcode.barcode);
-                // WidgetsBinding.instance.addPostFrameCallback((_) {
-                //   _buildDialog(snapshot.data! as ItemType);
-                // });
-                //   print("Ide tu");
+                  return FoundScreen(
+                      item: snapshot.data! as Item,
+                      barcode: widget.barcode.barcode);
+                  // WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //   _buildDialog(snapshot.data! as ItemType);
+                  // });
+                  //   print("Ide tu");
                 }
                 return ItemForm(barcode: widget.barcode.barcode);
               } else if (snapshot.hasError) {

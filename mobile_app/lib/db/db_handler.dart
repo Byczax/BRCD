@@ -45,19 +45,28 @@ class DBHandler {
       return false;
     }
   }
+
   // TODO: later it will be good idea to handle it as concrete object instead of dynamic
   Future<dynamic> checkIfBarcodeExists(String barcode) async {
     try {
-      final document = await _db.collection(barcodesName).where("barcode", isEqualTo: barcode).get();
+      final document = await _db
+          .collection(barcodesName)
+          .where("barcode", isEqualTo: barcode)
+          .get();
       if (document.size != 0) {
-        final temp =  await _db.collection(itemName).doc(document.docs.first.get("item")).get();
-        final type = await _db.collection(itemTypes).doc(temp.data()!["itemTypeID"]).get();
-        final toReturn =  ItemType.fromJSON(type.data()!);
+        final temp = await _db
+            .collection(itemName)
+            .doc(document.docs.first.get("item"))
+            .get();
+        final type = await _db
+            .collection(itemTypes)
+            .doc(temp.data()!["itemTypeID"])
+            .get();
+        final toReturn = ItemType.fromJSON(type.data()!);
         final cos = Item.fromJSON(temp.data()!);
         cos.itemType = toReturn;
         return cos;
-      }
-      else{
+      } else {
         return false;
       }
     } catch (e) {
@@ -66,25 +75,24 @@ class DBHandler {
     }
   }
 
-  Future<bool> addBarcode(String barcode, String itemID)async {
-    try{
-    final collection = _db.collection(barcodesName);
-    await collection.doc(barcode).set({"itemID": itemID});
-    return true;
+  Future<bool> addBarcode(String barcode, String itemID) async {
+    try {
+      final collection = _db.collection(barcodesName);
+      await collection.doc(barcode).set({"itemID": itemID});
+      return true;
     } catch (e) {
       print("error");
       return false;
     }
   }
 
-  Future<List<ItemType>>getItemTypes() async{
+  Future<List<ItemType>> getItemTypes() async {
     QuerySnapshot documentsSnapshot = await _db.collection(itemTypes).get();
     final inventories = documentsSnapshot.docs.map((json) {
       var temp = ItemType.fromJSON(json.data() as Map<String, dynamic>);
       temp.id = json.id;
       return temp;
-    }
-    ).toList();
+    }).toList();
     return inventories;
   }
 
@@ -99,18 +107,22 @@ class DBHandler {
     }
   }
 
-  Future<bool> addItem(Map<String, dynamic> data) async{
-    final item = Item(data["description"], DateTime.now(), _userUID!, _userUID!, null, data["itemTypeID"]);
+  Future<bool> addItem(Map<String, dynamic> data) async {
+    final item = Item(data["description"], DateTime.now(), _userUID!, _userUID!,
+        null, data["itemTypeID"]);
     final doc = _db.collection(itemName).doc();
     await doc.set(item.toMap());
-    await _db.collection(barcodesName).doc().set({
-      "barcode": data["barcode"],
-      "item": doc.id
-    });
+    await _db
+        .collection(barcodesName)
+        .doc()
+        .set({"barcode": data["barcode"], "item": doc.id});
     final list = await _db.collection(inventoryName).doc(data["listID"]).get();
     final asObj = list.get("items") as List<dynamic>;
     asObj.add(item.toMap());
-    await _db.collection(inventoryName).doc(data["listID"]).update({"items": asObj});
+    await _db
+        .collection(inventoryName)
+        .doc(data["listID"])
+        .update({"items": asObj});
     // print(asObj);
 
     return true;
@@ -120,11 +132,9 @@ class DBHandler {
     try {
       final doc = await _db.collection(itemTypes).doc(itemTypeId).get();
       return ItemType.fromJSON(doc.data()!);
-    }
-    catch(e) {
+    } catch (e) {
       print("Error at fetching");
       return null;
     }
   }
-
 }

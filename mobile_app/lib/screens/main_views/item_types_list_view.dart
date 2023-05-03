@@ -35,20 +35,24 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
               return ListView.builder(
                   itemCount: inventories.length,
                   itemBuilder: (context, index) => ListTile(
-                    title: Text(inventories[index].name),
-                    onTap: () {
-                      // TODO: Add here dialog which will display details
-                      showDialog(context: context, builder: (BuildContext builder) {
-                        return AlertDialog(content: Text(inventories[index].description),);
-                      });
-                    },
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        // onRemove(inventories[index].documentId);
-                      },
-                    ),
-                  ));
+                        title: Text(inventories[index].name),
+                        onTap: () {
+                          // TODO: Add here dialog which will display details
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext builder) {
+                                return AlertDialog(
+                                  content: Text(inventories[index].description),
+                                );
+                              });
+                        },
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            // onRemove(inventories[index].documentId);
+                          },
+                        ),
+                      ));
             }
           })),
       floatingActionButton: Scaffold(
@@ -82,6 +86,7 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
       ),
     );
   }
+
   void onCreate(List<String> params) async {
     var itemType = ItemType(params[0], params[1]);
     bool success = await _db.addItemType(itemType);

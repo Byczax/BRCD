@@ -3,7 +3,8 @@ import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/db_handler.dart';
 
 class AddInventory extends StatelessWidget {
-  AddInventory({Key? key, required this.onCreate, required this.titleText}) : super(key: key);
+  AddInventory({Key? key, required this.onCreate, required this.titleText})
+      : super(key: key);
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final String titleText;
@@ -56,7 +57,7 @@ class AddInventory extends StatelessWidget {
                   _titleController.text,
                   _descriptionController.text
                 ];
-                  onCreate(parameters);
+                onCreate(parameters);
                 Navigator.pop(context);
               }
             },

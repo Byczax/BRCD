@@ -14,16 +14,15 @@ class Inventory {
   Inventory(this.title, this.description, this.items, this.userUid);
 
   Map<String, dynamic> toMap() => {
-    "title": title,
-    "description": description,
-    "owner": userUid,
-    "items": items
-  };
+        "title": title,
+        "description": description,
+        "owner": userUid,
+        "items": items
+      };
 
   factory Inventory.fromJSON(Map<String, dynamic> data) {
     return Inventory(
-        data["title"], data["description"], data["items"],
-        data["owner"]);
+        data["title"], data["description"], data["items"], data["owner"]);
   }
 
   @override

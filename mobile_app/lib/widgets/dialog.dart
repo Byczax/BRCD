@@ -5,7 +5,12 @@ class MyDialog extends StatelessWidget {
   final String itemName;
   final String documentId;
   final Function() removeFunc;
-  const MyDialog({Key? key, required this.itemName, required this.documentId,  required  this.removeFunc}) : super(key: key);
+  const MyDialog(
+      {Key? key,
+      required this.itemName,
+      required this.documentId,
+      required this.removeFunc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +32,9 @@ class MyDialog extends StatelessWidget {
             textStyle: Theme.of(context).textTheme.labelLarge,
           ),
           child: const Text('Yes'),
-          onPressed: (){
+          onPressed: () {
             removeFunc();
-              Navigator.of(context).pop();
+            Navigator.of(context).pop();
           },
         )
       ],
