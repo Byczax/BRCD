@@ -7,24 +7,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:mobile_app/main.dart';
+import 'package:mobile_app/screens/main_page.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Display login view and move user into another view',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());
 
+    final loginButtonFinder = find.byKey(const Key("log-in-button"));
+    final imageFinder = find.byKey(const Key("image-box"));
     // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(loginButtonFinder, findsOneWidget);
+    expect(imageFinder, findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    await tester.tap(loginButtonFinder);
+  });
+  testWidgets("Ensure that user can move between pages after log in",
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const MaterialApp(home: LoggedInView()));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    final bottomNavigationBar = find.byKey(const Key("navigation-bar"));
+    expect(bottomNavigationBar, findsOneWidget);
+
+    await tester.tap(find.byIcon( Icons.center_focus_strong_outlined));
+    expect(find.text("Scanner"), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.settings));
+    expect(find.text("Settings"), findsWidgets);
+
+    await tester.tap(find.byIcon(Icons.home));
+    expect(find.text("Inventories"), findsOneWidget);
   });
 }
