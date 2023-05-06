@@ -3,6 +3,8 @@ import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/data_models/item_type.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+
 
 class ItemTypesListView extends StatefulWidget {
   const ItemTypesListView({Key? key}) : super(key: key);
@@ -49,17 +51,34 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
                   ));
             }
           })),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "newItemType",
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext builder) {
-                return AddInventory(onCreate: onCreate, titleText: "Add new item type");
-              });
-                  // AddInventory(onCreate: onCreate));
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: Scaffold(
+        floatingActionButtonLocation: ExpandableFab.location,
+        floatingActionButton: ExpandableFab(
+          children: [
+            FloatingActionButton.small(
+              heroTag: null,
+              child: const Icon(Icons.edit),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext builder) {
+                      return AddInventory(onCreate: onCreate, titleText: "Add new item type");
+                    });
+              },
+            ),
+            FloatingActionButton.small(
+              heroTag: null,
+              child: const Icon(Icons.add),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext builder) {
+                      return AddInventory(onCreate: onCreate, titleText: "Add new item type");
+                    });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
