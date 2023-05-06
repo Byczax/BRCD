@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/data_models/item_type.dart';
 import 'package:mobile_app/db/db_handler.dart';

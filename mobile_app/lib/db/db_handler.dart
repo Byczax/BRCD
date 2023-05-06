@@ -28,6 +28,7 @@ class DBHandler {
   Future<List<Inventory>> getInventories() async {
     QuerySnapshot documentsSnapshot = await _db.collection(inventoryName).get();
     final inventories = documentsSnapshot.docs.map((json) {
+      print(json.data());
       final inventory = Inventory.fromJSON(json.data() as Map<String, dynamic>);
       inventory.id = json.id;
       return inventory;
