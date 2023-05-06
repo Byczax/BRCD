@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/db_handler.dart';
-// import 'package:mobile_app/db/item.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:mobile_app/screens/inventory_details_view.dart';
 
@@ -54,9 +52,7 @@ class _InventoryListState extends State<InventoryList> {
                       ));
             }
           })),
-      floatingActionButton: Scaffold(
-        floatingActionButtonLocation: ExpandableFab.location,
-        floatingActionButton: ExpandableFab(
+      floatingActionButton: ExpandableFab(
           children: [
             FloatingActionButton.small(
               heroTag: null,
@@ -80,7 +76,7 @@ class _InventoryListState extends State<InventoryList> {
             ),
           ],
         ),
-      )
+      floatingActionButtonLocation: ExpandableFab.location,
     );
   }
 

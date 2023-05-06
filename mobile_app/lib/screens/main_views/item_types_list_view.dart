@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/data_models/item_type.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
@@ -55,7 +54,7 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
                       ));
             }
           })),
-      floatingActionButton: Scaffold(
+
         floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: ExpandableFab(
           children: [
@@ -83,7 +82,6 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
             ),
           ],
         ),
-      ),
     );
   }
 
