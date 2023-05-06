@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:mobile_app/screens/main_views/new_item_screen.dart';
 import 'package:mobile_app/utils/item_arguments.dart';
+import 'package:mobile_app/utils/pdf/pdf_service.dart';
 
 class BarcodeScan extends StatefulWidget {
   const BarcodeScan({Key? key}) : super(key: key);
@@ -12,6 +13,9 @@ class BarcodeScan extends StatefulWidget {
 }
 
 class _BarcodeScanState extends State<BarcodeScan> {
+  final PdfInvoiceService service = PdfInvoiceService();
+  int number = 0;
+
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -43,6 +47,14 @@ class _BarcodeScanState extends State<BarcodeScan> {
                     key: const Key("ScannerButton"),
                     onPressed: () => scanBarcodeNormal(),
                     child: const Text('Start barcode scan')),
+                ElevatedButton(
+                    key: const Key("PdfButton"),
+                    onPressed: () async {
+                      final data = await service.createHelloWorld();
+                      service.savePdfFile("invoice_$number", data);
+                      number++;
+                    },
+                    child: const Text('Display PDF')),
               ]));
     });
   }
