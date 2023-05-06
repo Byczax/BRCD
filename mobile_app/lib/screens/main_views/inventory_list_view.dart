@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:mobile_app/db/data_models.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/db_handler.dart';
@@ -53,16 +54,33 @@ class _InventoryListState extends State<InventoryList> {
                       ));
             }
           })),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "newInventory",
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (BuildContext builder) =>
-                  AddInventory(titleText: "Add new inventory", onCreate: onCreate));
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: Scaffold(
+        floatingActionButtonLocation: ExpandableFab.location,
+        floatingActionButton: ExpandableFab(
+          children: [
+            FloatingActionButton.small(
+              heroTag: null,
+              child: const Icon(Icons.edit),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext builder) =>
+                        AddInventory(titleText: "Add new inventory", onCreate: onCreate));
+              },
+            ),
+            FloatingActionButton.small(
+              heroTag: null,
+              child: const Icon(Icons.add),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext builder) =>
+                        AddInventory(titleText: "Add new inventory", onCreate: onCreate));
+              },
+            ),
+          ],
+        ),
+      )
     );
   }
 
