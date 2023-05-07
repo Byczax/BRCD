@@ -5,6 +5,8 @@ import 'package:mobile_app/screens/main_views/new_item_screen.dart';
 import 'package:mobile_app/utils/item_arguments.dart';
 import 'package:mobile_app/utils/pdf/pdf_service.dart';
 
+import '../utils/pdf/model/product.dart';
+
 class BarcodeScan extends StatefulWidget {
   const BarcodeScan({Key? key}) : super(key: key);
 
@@ -15,6 +17,13 @@ class BarcodeScan extends StatefulWidget {
 class _BarcodeScanState extends State<BarcodeScan> {
   final PdfInvoiceService service = PdfInvoiceService();
   int number = 0;
+
+  List<Product> products = [
+    Product("Membership", 9.99, 19),
+    Product("Nails", 0.30, 19),
+    Product("Hammer", 26.43, 19),
+    Product("Hamburger", 5.99, 7),
+  ];
 
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
@@ -50,7 +59,7 @@ class _BarcodeScanState extends State<BarcodeScan> {
                 ElevatedButton(
                     key: const Key("PdfButton"),
                     onPressed: () async {
-                      final data = await service.createHelloWorld();
+                      final data = await service.createInvoice(products);
                       service.savePdfFile("invoice_$number", data);
                       number++;
                     },
