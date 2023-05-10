@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
-import 'package:mobile_app/db/data_models/item_type.dart';
 import 'package:mobile_app/db/db_handler.dart';
 
 class InventoryDetailsView extends StatefulWidget {
@@ -34,25 +33,25 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.left,
               ),
-              Flexible(
-                  child: ListView.builder(
-                // scrollDirection: Axis.vertical,
-                // shrinkWrap: true,
-                itemCount: widget.inventory.items.length,
-                itemBuilder: (context, index) => FutureBuilder(
-                    future: _db.getItemType(
-                        widget.inventory.items[index]["itemTypeID"]),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var itemType = snapshot.data as ItemType;
-                        return ListTile(
-                          title: Text(itemType!.name),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }),
-              )),
+              // Flexible(
+              //     child: ListView.builder(
+              //   // scrollDirection: Axis.vertical,
+              //   // shrinkWrap: true,
+              //   itemCount: widget.inventory.items.length,
+              //   itemBuilder: (context, index) => FutureBuilder(
+              //       future: _db.getItemType(
+              //           widget.inventory.items[index]["itemTypeID"]),
+              //       builder: (context, snapshot) {
+              //         if (snapshot.hasData) {
+              //           var itemType = snapshot.data as ItemType;
+              //           return ListTile(
+              //             title: Text(itemType!.name),
+              //           );
+              //         } else {
+              //           return Container();
+              //         }
+              //       }),
+              // )),
             ],
           )),
       floatingActionButton: FloatingActionButton(

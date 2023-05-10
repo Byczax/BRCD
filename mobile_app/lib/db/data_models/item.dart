@@ -1,32 +1,37 @@
-import 'package:mobile_app/db/data_models/item_type.dart';
-
 class Item {
+  String title;
   String description;
+  String barcode;
+  String unit;
+  int quantity;
   DateTime createdDate;
   DateTime? removedDate;
   bool isRemoved = false;
   String authorId;
-  String responsibleUser;
-  String itemTypeID;
-  ItemType? itemType;
-  Item(this.description, this.createdDate, this.authorId, this.responsibleUser,
-      this.removedDate, this.itemTypeID);
+  Item(this.title, this.description, this.barcode, this.createdDate, this.authorId,
+      this.unit, this.quantity,
+      this.removedDate);
 
   Map<String, dynamic> toMap() => {
+        "title": title,
+        "barcode": barcode,
+        "unit": unit,
+        "quantity": quantity,
         "description": description,
         "createdDate": createdDate,
         "removedDate": removedDate,
         "isRemoved": isRemoved,
         "authorId": authorId,
-        "responsibleUser": responsibleUser,
-        "itemTypeID": itemTypeID
       };
 
   factory Item.fromJSON(Map<String, dynamic> data) => Item(
+      data["title"],
       data["description"],
+      data["barcode"],
       data["createdDate"].toDate(),
       data["authorId"],
-      data["responsibleUser"],
-      data["removedDate"],
-      data["itemTypeID"]);
+      data["unit"],
+      data["quantity"],
+      data["removedDate"]
+      );
 }

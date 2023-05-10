@@ -33,7 +33,7 @@ class _FoundScreenState extends State<FoundScreen> {
 
   Future<void> onSubmit() async {
     Map<String, dynamic> dataCollected = {
-      "itemTypeID": widget.item.itemTypeID,
+      "title": "placeholder",
       "dateCreated": DateTime.now().toUtc().toString(),
       "description": _controller.text,
       "barcode": widget.barcode,
@@ -92,7 +92,7 @@ class _FoundScreenState extends State<FoundScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                "Found item: ${widget.item.itemType!.name}",
+                "Found item: ${widget.item.title}",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -112,7 +112,7 @@ class _FoundScreenState extends State<FoundScreen> {
                 height: 100,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Text(widget.item.itemType!.description),
+                  child: Text(widget.item.description),
                 )),
             Text(
               "Item details description",
