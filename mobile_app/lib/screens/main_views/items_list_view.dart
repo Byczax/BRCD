@@ -3,16 +3,17 @@ import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:mobile_app/widgets/items_builder.dart';
 
 
-class ItemTypesListView extends StatefulWidget {
-  const ItemTypesListView({Key? key}) : super(key: key);
+class ItemsListView extends StatefulWidget {
+  const ItemsListView({Key? key}) : super(key: key);
 
   @override
-  State<ItemTypesListView> createState() => _ItemTypesListViewState();
+  State<ItemsListView> createState() => _ItemsListViewState();
 }
 
-class _ItemTypesListViewState extends State<ItemTypesListView> {
+class _ItemsListViewState extends State<ItemsListView> {
   final DBHandler _db = DBHandler();
   @override
   Widget build(BuildContext context) {
@@ -31,27 +32,7 @@ class _ItemTypesListViewState extends State<ItemTypesListView> {
                   child: Text("You have no inventories"),
                 );
               }
-              return ListView.builder(
-                  itemCount: inventories.length,
-                  itemBuilder: (context, index) => ListTile(
-                        title: Text(inventories[index].title),
-                        onTap: () {
-                          // TODO: Add here dialog which will display details
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext builder) {
-                                return AlertDialog(
-                                  content: Text(inventories[index].description),
-                                );
-                              });
-                        },
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            // onRemove(inventories[index].documentId);
-                          },
-                        ),
-                      ));
+              return ItemsBuilder(items: inventories);
             }
           })),
 

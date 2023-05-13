@@ -52,12 +52,14 @@ class DBHandler {
           .where("barcode", isEqualTo: barcode)
           .get();
       if (document.size != 0) {
-        print(document.docs);
-        final temp = await _db
-            .collection(itemName)
-            .doc(document.docs.first.get("item"))
-            .get();
-        final cos = Item.fromJSON(temp.data()!);
+
+        // final temp = await _db
+        //     .collection(itemName)
+        //     .doc(document.docs.first.get("item"))
+        //     .get();
+        print(document.docs[0].data());
+        final cos = Item.fromJSON(document.docs[0].data());
+        print("cos ${cos.title}");
         return cos;
       } else {
         return false;
@@ -81,6 +83,7 @@ class DBHandler {
     // final item = Item(  data["description"], DateTime.now(), _userUID!, _userUID!,
     //     null, data["itemTypeID"]);
     final doc = _db.collection(itemName).doc();
+    data["authorId"] = _userUID!;
     await doc.set(data);
     // final list = await _db.collection(inventoryName).doc(data["listID"]).get();
     // final asObj = list.get("items") as List<dynamic>;
@@ -93,5 +96,17 @@ class DBHandler {
 
     return true;
   }
+  Future<bool> addToInventory(Map<String, dynamic> data) async{
+    final list = await _db.collection(inventoryName).doc(data["listID"]).get();
+    final id = data.remove("listID");
+    final asObj = list.get("items") as List<dynamic>;
+    asObj.add(data);
+    await _db
+        .collection(inventoryName)
+        .doc(id)
+        .update({"items": asObj});
+    return true;
+  }
+
 
 }

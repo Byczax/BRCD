@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
+import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
+import 'package:mobile_app/widgets/items_builder.dart';
 
 class InventoryDetailsView extends StatefulWidget {
   const InventoryDetailsView({Key? key, required this.inventory})
@@ -11,9 +13,11 @@ class InventoryDetailsView extends StatefulWidget {
 }
 
 class _InventoryDetailsViewState extends State<InventoryDetailsView> {
-  final DBHandler _db = DBHandler();
+  // final DBHandler _db = DBHandler();
   @override
   Widget build(BuildContext context) {
+    List<Item> items = widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.inventory.title),
@@ -33,6 +37,8 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.left,
               ),
+              Flexible(child: ItemsBuilder( items: items,)
+
               // Flexible(
               //     child: ListView.builder(
               //   // scrollDirection: Axis.vertical,
@@ -52,7 +58,7 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
               //         }
               //       }),
               // )),
-            ],
+              )],
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

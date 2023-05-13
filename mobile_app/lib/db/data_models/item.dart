@@ -4,7 +4,7 @@ class Item {
   String barcode;
   String unit;
   int quantity;
-  DateTime createdDate;
+  String createdDate;
   DateTime? removedDate;
   bool isRemoved = false;
   String authorId;
@@ -18,7 +18,7 @@ class Item {
         "unit": unit,
         "quantity": quantity,
         "description": description,
-        "createdDate": createdDate,
+        "dateCreated": createdDate,
         "removedDate": removedDate,
         "isRemoved": isRemoved,
         "authorId": authorId,
@@ -28,9 +28,9 @@ class Item {
       data["title"],
       data["description"],
       data["barcode"],
-      data["createdDate"].toDate(),
+      data["dateCreated"],
       data["authorId"],
-      data["unit"],
+      data["unit"].toString(),
       data["quantity"],
       data["removedDate"]
       );
