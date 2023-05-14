@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/main_views/add_new_item.dart';
 import 'package:mobile_app/screens/main_views/inventory_list_view.dart';
-import 'package:mobile_app/screens/main_views/item_types_list_view.dart';
+import 'package:mobile_app/screens/main_views/items_list_view.dart';
 import 'package:mobile_app/screens/main_views/settings.dart';
 import 'package:provider/provider.dart';
 
@@ -19,20 +19,20 @@ class _LoggedInViewState extends State<LoggedInView> {
 
   final List<Widget> _screens = [
     const InventoryList(),
-    const ItemTypesListView(),
+    const ItemsListView(),
     const BarCodeScreen(),
     const SettingsWidget(),
   ];
   final List<String> _appBarTitles = [
     "Inventory",
-    "Item types",
+    "Items",
     "Scanner",
     "Settings"
   ];
 
   final _navbarItems = [
     const BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-    const BottomNavigationBarItem(icon: Icon(Icons.book), label: "Types"),
+    const BottomNavigationBarItem(icon: Icon(Icons.book), label: "Items"),
     const BottomNavigationBarItem(
         icon: Icon(
           Icons.center_focus_strong_outlined,

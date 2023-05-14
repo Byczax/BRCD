@@ -4,6 +4,7 @@ import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:mobile_app/screens/inventory_details_view.dart';
+import 'package:mobile_app/widgets/dialog/comparer_dialog.dart';
 
 class InventoryList extends StatefulWidget {
   const InventoryList({Key? key}) : super(key: key);
@@ -13,13 +14,20 @@ class InventoryList extends StatefulWidget {
 }
 
 class _InventoryListState extends State<InventoryList> {
-  final _db = DBHandler();
+  late DBHandler _db;
+  late Future<List<Inventory>> inventories;
+  @override
+  void initState() {
+    super.initState();
+    _db = DBHandler();
+    inventories = _db.getInventories();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: _db.getInventories(),
+          future: inventories,
           builder: ((context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -61,7 +69,7 @@ class _InventoryListState extends State<InventoryList> {
                 showDialog(
                     context: context,
                     builder: (BuildContext builder) =>
-                        AddInventory(titleText: "Add new inventory", onCreate: onCreate));
+                        ComparerDialog( inventories: inventories));
               },
             ),
             FloatingActionButton.small(

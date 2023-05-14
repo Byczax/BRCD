@@ -17,6 +17,7 @@ class _FoundScreenState extends State<FoundScreen> {
   TextEditingController _controller = TextEditingController();
   final _padding = 20.0;
   final DBHandler _db = DBHandler();
+
   Inventory? inventory;
   @override
   void initState() {
@@ -28,18 +29,12 @@ class _FoundScreenState extends State<FoundScreen> {
     setState(() {
       inventory = chosen;
     });
-    print(inventory!.title);
   }
 
   Future<void> onSubmit() async {
-    Map<String, dynamic> dataCollected = {
-      "itemTypeID": widget.item.itemTypeID,
-      "dateCreated": DateTime.now().toUtc().toString(),
-      "description": _controller.text,
-      "barcode": widget.barcode,
-      "listID": inventory!.documentId
-    };
-    await _db.addItem(dataCollected);
+    Map<String, dynamic> dataCollected = widget.item.toMap();
+    dataCollected["listID"] = inventory!.documentId;
+    await _db.addToInventory(dataCollected);
   }
 
   //TODO: jeżeli będzie czas: pozmieniać kod tak aby co wybór nie wykonywał
@@ -92,7 +87,7 @@ class _FoundScreenState extends State<FoundScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                "Found item: ${widget.item.itemType!.name}",
+                "Found item: ${widget.item.title}",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -112,17 +107,13 @@ class _FoundScreenState extends State<FoundScreen> {
                 height: 100,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Text(widget.item.itemType!.description),
+                  child: Text(widget.item.description),
                 )),
             Text(
-              "Item details description",
+              "Unit: ${widget.item.unit} Quantity: ${widget.item.quantity}",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            TextFormField(
-              controller: _controller,
-              decoration: InputDecoration(border: OutlineInputBorder()),
-              maxLines: 5,
-            ),
+
             _dropDownButton(inventory, _db.getInventories(), onChange),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
