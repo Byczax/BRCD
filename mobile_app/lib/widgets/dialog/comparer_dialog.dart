@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
+import 'package:mobile_app/screens/compare_list_view.dart';
 
 class ComparerDialog extends StatelessWidget {
   ComparerDialog({Key? key, required this.inventories}) : super(key: key);
@@ -8,7 +9,7 @@ class ComparerDialog extends StatelessWidget {
   Inventory? chosen_1;
   Inventory? chosen_2;
   Widget _dropDownButton<T>(
-      T? value, Future<List<T>> list, Function(T) onChange) =>
+          T? value, Future<List<T>> list, Function(T) onChange) =>
       FutureBuilder<List<T>>(
           future: list,
           builder: (BuildContext context, AsyncSnapshot<List<T>> snapshot) {
@@ -24,9 +25,9 @@ class ComparerDialog extends StatelessWidget {
                     value: value,
                     items: snapshot.data!
                         .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.toString()),
-                    ))
+                              value: e,
+                              child: Text(e.toString()),
+                            ))
                         .toList(),
                     onChanged: (T? value) {
                       onChange(value!);
@@ -43,18 +44,22 @@ class ComparerDialog extends StatelessWidget {
             }
           });
 
-
-
   @override
-  Widget build(BuildContext context){
-    return  AlertDialog(
+  Widget build(BuildContext context) {
+    return AlertDialog(
       title: Text("Choose list to compare contents"),
-      content: Column(
-        children: [
-          _dropDownButton(this.chosen_1, inventories, (p0) {this.chosen_1= p0; }),
-          _dropDownButton(this.chosen_2, inventories, (p0) {this.chosen_2= p0; }),
-
-        ],
+      content: SizedBox(
+        height: 250,
+        child: Column(
+          children: [
+            _dropDownButton(this.chosen_1, inventories, (p0) {
+              this.chosen_1 = p0;
+            }),
+            _dropDownButton(this.chosen_2, inventories, (p0) {
+              this.chosen_2 = p0;
+            }),
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -73,7 +78,11 @@ class ComparerDialog extends StatelessWidget {
           child: const Text('Compare'),
           onPressed: () {
             // removeFunc();
-            Navigator.of(context).pop();
+            if (chosen_1 != null && chosen_2 != null && chosen_1 != chosen_2) {
+              Navigator.pop(context, [chosen_1!, chosen_2!]);
+            } else {
+              Navigator.of(context).pop();
+            }
           },
         )
       ],

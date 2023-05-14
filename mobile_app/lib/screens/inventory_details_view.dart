@@ -16,7 +16,8 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
   // final DBHandler _db = DBHandler();
   @override
   Widget build(BuildContext context) {
-    List<Item> items = widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
+    List<Item> items =
+        widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -37,28 +38,32 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
                 style: Theme.of(context).textTheme.headlineMedium,
                 textAlign: TextAlign.left,
               ),
-              Flexible(child: ItemsBuilder( items: items,)
+              Flexible(
+                  child: ItemsBuilder(
+                items: items,
+              )
 
-              // Flexible(
-              //     child: ListView.builder(
-              //   // scrollDirection: Axis.vertical,
-              //   // shrinkWrap: true,
-              //   itemCount: widget.inventory.items.length,
-              //   itemBuilder: (context, index) => FutureBuilder(
-              //       future: _db.getItemType(
-              //           widget.inventory.items[index]["itemTypeID"]),
-              //       builder: (context, snapshot) {
-              //         if (snapshot.hasData) {
-              //           var itemType = snapshot.data as ItemType;
-              //           return ListTile(
-              //             title: Text(itemType!.name),
-              //           );
-              //         } else {
-              //           return Container();
-              //         }
-              //       }),
-              // )),
-              )],
+                  // Flexible(
+                  //     child: ListView.builder(
+                  //   // scrollDirection: Axis.vertical,
+                  //   // shrinkWrap: true,
+                  //   itemCount: widget.inventory.items.length,
+                  //   itemBuilder: (context, index) => FutureBuilder(
+                  //       future: _db.getItemType(
+                  //           widget.inventory.items[index]["itemTypeID"]),
+                  //       builder: (context, snapshot) {
+                  //         if (snapshot.hasData) {
+                  //           var itemType = snapshot.data as ItemType;
+                  //           return ListTile(
+                  //             title: Text(itemType!.name),
+                  //           );
+                  //         } else {
+                  //           return Container();
+                  //         }
+                  //       }),
+                  // )),
+                  )
+            ],
           )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

@@ -32,9 +32,11 @@ class _FoundScreenState extends State<FoundScreen> {
   }
 
   Future<void> onSubmit() async {
-    Map<String, dynamic> dataCollected = widget.item.toMap();
-    dataCollected["listID"] = inventory!.documentId;
-    await _db.addToInventory(dataCollected);
+    if (inventory != null) {
+      Map<String, dynamic> dataCollected = widget.item.toMap();
+      dataCollected["listID"] = inventory!.documentId;
+      await _db.addToInventory(dataCollected);
+    }
   }
 
   //TODO: jeżeli będzie czas: pozmieniać kod tak aby co wybór nie wykonywał
@@ -45,6 +47,11 @@ class _FoundScreenState extends State<FoundScreen> {
           future: list,
           builder: (BuildContext context, AsyncSnapshot<List<T>> snapshot) {
             if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Container(
+                  child: Text("No inventories, create inventory first"),
+                );
+              }
               value = snapshot.data![0];
               return Padding(
                   padding: EdgeInsets.symmetric(vertical: _padding),
@@ -113,7 +120,6 @@ class _FoundScreenState extends State<FoundScreen> {
               "Unit: ${widget.item.unit} Quantity: ${widget.item.quantity}",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-
             _dropDownButton(inventory, _db.getInventories(), onChange),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -8,9 +8,8 @@ class Item {
   DateTime? removedDate;
   bool isRemoved = false;
   String authorId;
-  Item(this.title, this.description, this.barcode, this.createdDate, this.authorId,
-      this.unit, this.quantity,
-      this.removedDate);
+  Item(this.title, this.description, this.barcode, this.createdDate,
+      this.authorId, this.unit, this.quantity, this.removedDate);
 
   Map<String, dynamic> toMap() => {
         "title": title,
@@ -32,6 +31,5 @@ class Item {
       data["authorId"],
       data["unit"].toString(),
       data["quantity"],
-      data["removedDate"]
-      );
+      data["removedDate"]);
 }
