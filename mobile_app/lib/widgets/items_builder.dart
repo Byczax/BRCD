@@ -9,23 +9,23 @@ class ItemsBuilder extends StatelessWidget {
     return ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) => ListTile(
-          title: Text(items[index].title),
-          onTap: () {
-            // TODO: Add here dialog which will display details
-            showDialog(
-                context: context,
-                builder: (BuildContext builder) {
-                  return AlertDialog(
-                    content: Text(items[index].description),
-                  );
-                });
-          },
-          trailing: IconButton(
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              // onRemove(inventories[index].documentId);
-            },
-          ),
-        ));
+              title: Text(items[index].title),
+              onTap: () {
+                // TODO: Add here dialog which will display details
+                showDialog(
+                    context: context,
+                    builder: (BuildContext builder) {
+                      return AlertDialog(
+                        content: Text(items[index].description),
+                      );
+                    });
+              },
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  // onRemove(inventories[index].documentId);
+                },
+              ),
+            ));
   }
 }

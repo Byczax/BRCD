@@ -33,14 +33,12 @@ class _ItemFormState extends State<ItemForm> {
       "barcode": _controllers[0].text,
       "title": _controllers[1].text,
       "unit": _controllers[2].text,
-      "quantity": _controllers[3].text,
+      "quantity": int.parse(_controllers[3].text),
       "dateCreated": DateTime.now().toUtc().toString(),
       "description": _controllers[4].text,
     };
     await _db.addItem(dataCollected);
   }
-
-
 
   // void updateInventory(Inventory inventory) {
   //   setState(() {
@@ -130,8 +128,11 @@ class _ItemFormState extends State<ItemForm> {
                   controller: _controllers[0],
                   isEnabled: false),
               _generateTextField(label: "title", controller: _controllers[1]),
-                _generateTextField(label: "Unit", controller: _controllers[2]),
-                _generateTextField(label: "Quantity", controller: _controllers[3], keyboardType: TextInputType.number),
+              _generateTextField(label: "Unit", controller: _controllers[2]),
+              _generateTextField(
+                  label: "Quantity",
+                  controller: _controllers[3],
+                  keyboardType: TextInputType.number),
               _generateTextField(
                   label: "Item description (optional)",
                   controller: _controllers[4],

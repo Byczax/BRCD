@@ -52,7 +52,6 @@ class DBHandler {
           .where("barcode", isEqualTo: barcode)
           .get();
       if (document.size != 0) {
-
         // final temp = await _db
         //     .collection(itemName)
         //     .doc(document.docs.first.get("item"))
@@ -96,17 +95,17 @@ class DBHandler {
 
     return true;
   }
-  Future<bool> addToInventory(Map<String, dynamic> data) async{
+
+  Future<bool> addToInventory(Map<String, dynamic> data) async {
     final list = await _db.collection(inventoryName).doc(data["listID"]).get();
     final id = data.remove("listID");
     final asObj = list.get("items") as List<dynamic>;
     asObj.add(data);
-    await _db
-        .collection(inventoryName)
-        .doc(id)
-        .update({"items": asObj});
+    await _db.collection(inventoryName).doc(id).update({"items": asObj});
     return true;
   }
 
-
+  Future<bool> removeItem(String documentId) async {
+    return true;
+  }
 }
