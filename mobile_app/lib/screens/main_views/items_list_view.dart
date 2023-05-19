@@ -39,7 +39,7 @@ class _ItemsListViewState extends State<ItemsListView> {
                   child: Text("You have no inventories"),
                 );
               }
-              return ItemsBuilder(items: inventories);
+              return ItemsBuilder(items: inventories, onRemove: onRemove,);
             }
           })),
       floatingActionButtonLocation: ExpandableFab.location,
@@ -82,8 +82,9 @@ class _ItemsListViewState extends State<ItemsListView> {
     // }
   }
 
-  void onRemove(String documentId) async {
-    bool success = await _db.removeItem(documentId);
+  void onRemove(Item item) async {
+    print("Kurwa");
+    bool success = await _db.removeItem(item.itemId!);
 
     if (success) {
       setState(() {
