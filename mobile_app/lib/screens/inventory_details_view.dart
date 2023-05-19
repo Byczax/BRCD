@@ -13,12 +13,16 @@ class InventoryDetailsView extends StatefulWidget {
 }
 
 class _InventoryDetailsViewState extends State<InventoryDetailsView> {
-  // final DBHandler _db = DBHandler();
+  final DBHandler _db = DBHandler();
   @override
   Widget build(BuildContext context) {
     List<Item> items =
         widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
-
+    void onRemove(Item item) async {
+      await _db.removeFromInventory(item, widget.inventory);
+      setState(() {
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.inventory.title),
@@ -41,6 +45,7 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
               Flexible(
                   child: ItemsBuilder(
                 items: items,
+                    onRemove: onRemove,
               )
 
                   // Flexible(

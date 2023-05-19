@@ -7,6 +7,7 @@ class Item {
   String createdDate;
   DateTime? removedDate;
   bool isRemoved = false;
+  String? itemId;
   String authorId;
   Item(this.title, this.description, this.barcode, this.createdDate,
       this.authorId, this.unit, this.quantity, this.removedDate);

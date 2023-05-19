@@ -73,25 +73,16 @@ class DBHandler {
     QuerySnapshot documentsSnapshot = await _db.collection(itemName).get();
     final inventories = documentsSnapshot.docs.map((json) {
       var temp = Item.fromJSON(json.data() as Map<String, dynamic>);
+      temp.itemId = json.id;
       return temp;
     }).toList();
     return inventories;
   }
 
   Future<bool> addItem(Map<String, dynamic> data) async {
-    // final item = Item(  data["description"], DateTime.now(), _userUID!, _userUID!,
-    //     null, data["itemTypeID"]);
     final doc = _db.collection(itemName).doc();
     data["authorId"] = _userUID!;
     await doc.set(data);
-    // final list = await _db.collection(inventoryName).doc(data["listID"]).get();
-    // final asObj = list.get("items") as List<dynamic>;
-    // asObj.add(item.toMap());
-    // await _db
-    //     .collection(inventoryName)
-    //     .doc(data["listID"])
-    //     .update({"items": asObj});
-    // // print(asObj);
 
     return true;
   }
@@ -106,6 +97,15 @@ class DBHandler {
   }
 
   Future<bool> removeItem(String documentId) async {
+    await _db.collection(itemName).doc(documentId).delete();
+    return true;
+  }
+
+  Future<bool> removeFromInventory(Item item, Inventory inventory) async {
+    final list = await _db.collection(inventoryName).doc(inventory.documentId).get();
+    final items = list.get("items") as List<dynamic>;
+    final filtered =items.where((e) => e["barcode"] != item.barcode).toList();
+    await _db.collection(inventoryName).doc(inventory.documentId).update({"items": filtered});
     return true;
   }
 }
