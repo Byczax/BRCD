@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:open_document/open_document.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,6 +9,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
 import 'model/product.dart';
+import 'package:merge_table/merge_table.dart';
 
 class CustomRow {
   final String position;
@@ -44,56 +46,46 @@ class PdfInvoiceService {
     final pdf = pw.Document();
 
     final List<CustomRow> elements = [
-      CustomRow(
-          "Lp.",
-          "Cecha\nSymbol\nNumer\nGatunek",
-          "Nazwa (określenie)\nprzedmiotu spisywanego",
-          "Jedn.\nmiary",
-          "Ilość stwierdzona",
-          "Cena",
-          "Wartość cenie",
-          "Uwagi"),
       for (var product in soldProducts)
         CustomRow(
-          soldProducts.indexOf(product).toString(),
-          product.name,
-          product.price.toStringAsFixed(2),
-          product.amount.toStringAsFixed(2),
-          (product.price * product.amount).toStringAsFixed(2),
-          "",
-          "",
-          (product.vatInPercent * product.price).toStringAsFixed(2),
-        ),
-      CustomRow(
-        "",
-        "Sub Total",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "${getSubTotal(soldProducts)} EUR",
-      ),
-      CustomRow(
-        "",
-        "Vat Total",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "${getVatTotal(soldProducts)} EUR",
-      ),
-      CustomRow(
-        "",
-        "Vat Total",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "${(double.parse(getSubTotal(soldProducts)) + double.parse(getVatTotal(soldProducts))).toStringAsFixed(2)} EUR",
-      )
+            soldProducts.indexOf(product).toString(),
+            product.identifier,
+            product.description,
+            product.unit,
+            product.amount.toStringAsFixed(2),
+            product.price.toStringAsFixed(2),
+            (product.price * product.amount).toStringAsFixed(2),
+            product.remarks),
+      // CustomRow(
+      //   "",
+      //   "Sub Total",
+      //   "",
+      //   "",
+      //   "",
+      //   "",
+      //   "",
+      //   "${getSubTotal(soldProducts)} EUR",
+      // ),
+      // CustomRow(
+      //   "",
+      //   "Vat Total",
+      //   "",
+      //   "",
+      //   "",
+      //   "",
+      //   "",
+      //   "${getVatTotal(soldProducts)} EUR",
+      // ),
+      // CustomRow(
+      //   "",
+      //   "Vat Total",
+      //   "",
+      //   "",
+      //   "",
+      //   "",
+      //   "",
+      //   "${(double.parse(getSubTotal(soldProducts)) + double.parse(getVatTotal(soldProducts))).toStringAsFixed(2)} EUR",
+      // )
     ];
     final image = (await rootBundle.load("assets/images/placeholder.png"))
         .buffer
@@ -104,6 +96,7 @@ class PdfInvoiceService {
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.fromLTRB(20, 20, 20, 20),
         build: (pw.Context context) {
           return pw.Column(
             children: [
@@ -192,6 +185,24 @@ class PdfInvoiceService {
         },
       ),
     );
+    // pdf.addPage(pw.Page(
+    //     pageFormat: PdfPageFormat.a4,
+    //     margin: const pw.EdgeInsets.fromLTRB(20, 20, 20, 20),
+    //     build: (pw.Context context) {
+    //       return Column(
+    //         children: [
+    //           MergeTable(rows: 5, columns: 5, borderColor: Colors.black),
+    //         ],
+    //       );
+    //       // return pw.Column(
+    //       //     children: [
+    //       //       pw.Text("A"),
+    //       //       MergeTable(rows: 5, columns: 5, borderColor: Colors.black);
+    //       //       // createdCustomTable()
+    //       //     ]
+    //       // );
+    //     }
+    // ));
     return pdf.save();
   }
 
@@ -212,6 +223,7 @@ class PdfInvoiceService {
         },
         defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
         children: <pw.TableRow>[
+          firstRow(font),
           for (var element in elements)
             pw.TableRow(
               children: [
@@ -254,6 +266,76 @@ class PdfInvoiceService {
     );
   }
 
+  pw.TableRow firstRow(pw.Font font) {
+    return pw.TableRow(children: [
+      pw.Expanded(
+          child: pw.Text("Lp.",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Cecha\nSymbol\nNumer\nGatunek",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Nazwa (określenie)\nprzedmiotu spisywanego",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Jedn.\nmiary",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Ilość stwierdzona",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Cena jednostkowa",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Wartość",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+      pw.Expanded(
+          child: pw.Text("Uwagi",
+              textAlign: pw.TextAlign.center, style: pw.TextStyle(font: font))),
+    ]);
+  }
+
+  MergeTable createdCustomTable() {
+    return MergeTable(
+      borderColor: Colors.black,
+      alignment: MergeTableAlignment.center,
+      columns: [
+        MColumn(header: "Pump"),
+        MColumn(header: "Product"),
+        MColumn(header: "Seal"),
+        MMergedColumns(
+          header: "Reading",
+          columns: ["Before", "Then", "After"],
+        ),
+        MColumn(header: "Write"),
+      ],
+      rows: [
+        [
+          MRow(const Text("1")),
+          MRow(const Text("2")),
+          MRow(const Text("3")),
+          MMergedRows([
+            const Text("4"),
+            const Text("5"),
+            const Text("8"),
+          ]),
+          MRow(const Text("6")),
+        ],
+        [
+          MRow(const Text("1")),
+          MRow(const Text("2")),
+          MRow(const Text("3")),
+          MMergedRows([
+            const Text("4"),
+            const Text("5"),
+            const Text("8"),
+          ]),
+          MRow(const Text("6")),
+        ],
+      ],
+    );
+  }
+
   Future<void> savePdfFile(String fileName, Uint8List byteList) async {
     final output = await getTemporaryDirectory();
     var filePath = "${output.path}/$fileName.pdf";
@@ -269,13 +351,13 @@ class PdfInvoiceService {
         .toStringAsFixed(2);
   }
 
-  String getVatTotal(List<Product> products) {
-    return products
-        .fold(
-          0.0,
-          (double prev, next) =>
-              prev + ((next.price / 100 * next.vatInPercent) * next.amount),
-        )
-        .toStringAsFixed(2);
-  }
+// String getVatTotal(List<Product> products) {
+//   return products
+//       .fold(
+//         0.0,
+//         (double prev, next) =>
+//             prev + ((next.price / 100 * next.vatInPercent) * next.amount),
+//       )
+//       .toStringAsFixed(2);
+// }
 }
