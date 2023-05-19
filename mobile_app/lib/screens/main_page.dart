@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/main_views/add_new_item.dart';
 import 'package:mobile_app/screens/main_views/inventory_list_view.dart';
 import 'package:mobile_app/screens/main_views/items_list_view.dart';
-import 'package:mobile_app/screens/main_views/settings.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/google_sign_in.dart';
@@ -21,13 +20,11 @@ class _LoggedInViewState extends State<LoggedInView> {
     const InventoryList(),
     const ItemsListView(),
     const BarCodeScreen(),
-    const SettingsWidget(),
   ];
   final List<String> _appBarTitles = [
     "Inventory",
     "Items",
     "Scanner",
-    "Settings"
   ];
 
   final _navbarItems = [
@@ -37,10 +34,7 @@ class _LoggedInViewState extends State<LoggedInView> {
         icon: Icon(
           Icons.center_focus_strong_outlined,
         ),
-        label: "Scan"),
-    const BottomNavigationBarItem(
-        icon: Icon(Icons.settings), label: "Settings"),
-    // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
+        label: "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
   ];
 
   @override
