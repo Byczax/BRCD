@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/db_handler.dart';
+import 'package:mobile_app/screens/compare_list_view.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:mobile_app/screens/inventory_details_view.dart';
+import 'package:mobile_app/widgets/dialog/comparer_dialog.dart';
 
 class InventoryList extends StatefulWidget {
   const InventoryList({Key? key}) : super(key: key);
@@ -13,13 +15,20 @@ class InventoryList extends StatefulWidget {
 }
 
 class _InventoryListState extends State<InventoryList> {
-  final _db = DBHandler();
+  late DBHandler _db;
+  late Future<List<Inventory>> inventories;
+  @override
+  void initState() {
+    super.initState();
+    _db = DBHandler();
+    inventories = _db.getInventories();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-          future: _db.getInventories(),
+          future: inventories,
           builder: ((context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
@@ -53,29 +62,35 @@ class _InventoryListState extends State<InventoryList> {
             }
           })),
       floatingActionButton: ExpandableFab(
-          children: [
-            FloatingActionButton.small(
-              heroTag: null,
-              child: const Icon(Icons.edit),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext builder) =>
-                        AddInventory(titleText: "Add new inventory", onCreate: onCreate));
-              },
-            ),
-            FloatingActionButton.small(
-              heroTag: null,
-              child: const Icon(Icons.add),
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext builder) =>
-                        AddInventory(titleText: "Add new inventory", onCreate: onCreate));
-              },
-            ),
-          ],
-        ),
+        children: [
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.edit),
+            onPressed: () async {
+              final dupa = await showDialog(
+                  context: context,
+                  builder: (BuildContext builder) =>
+                      ComparerDialog(inventories: inventories));
+              if (dupa != null) {
+                final temp = dupa as List<Inventory>;
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (builder) => CompareListViews(
+                        inventory1: temp[0], inventory2: temp[1])));
+              }
+            },
+          ),
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.add),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext builder) => AddInventory(
+                      titleText: "Add new inventory", onCreate: onCreate));
+            },
+          ),
+        ],
+      ),
       floatingActionButtonLocation: ExpandableFab.location,
     );
   }
@@ -85,7 +100,9 @@ class _InventoryListState extends State<InventoryList> {
     final temp = Inventory(inventory[0], inventory[1], [], null);
     bool success = await _db.addInventory(temp);
     if (success) {
-      setState(() {});
+      setState(() {
+        inventories = _db.getInventories();
+      });
     }
   }
 
@@ -93,7 +110,9 @@ class _InventoryListState extends State<InventoryList> {
     bool success = await _db.removeInventory(documentId);
 
     if (success) {
-      setState(() {});
+      setState(() {
+        inventories = _db.getInventories();
+      });
     }
   }
 }

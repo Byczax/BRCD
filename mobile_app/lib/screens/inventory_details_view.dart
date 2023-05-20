@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
-import 'package:mobile_app/db/data_models/item_type.dart';
+import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/pdf/pdf_service.dart';
 
 import '../utils/pdf/model/product.dart';
+import 'package:mobile_app/widgets/items_builder.dart';
 
 class InventoryDetailsView extends StatefulWidget {
   const InventoryDetailsView({Key? key, required this.inventory})
@@ -35,6 +36,13 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
           "Przed inflacją to było"),
     ];
 
+    List<Item> items =
+        widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
+    void onRemove(Item item) async {
+      await _db.removeFromInventory(item, widget.inventory);
+      setState(() {
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.inventory.title),
@@ -55,24 +63,31 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
                 textAlign: TextAlign.left,
               ),
               Flexible(
-                  child: ListView.builder(
-                // scrollDirection: Axis.vertical,
-                // shrinkWrap: true,
-                itemCount: widget.inventory.items.length,
-                itemBuilder: (context, index) => FutureBuilder(
-                    future: _db.getItemType(
-                        widget.inventory.items[index]["itemTypeID"]),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var itemType = snapshot.data as ItemType;
-                        return ListTile(
-                          title: Text(itemType.name),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }),
-              )),
+                  child: ItemsBuilder(
+                items: items,
+                    onRemove: onRemove,
+              )
+
+                  // Flexible(
+                  //     child: ListView.builder(
+                  //   // scrollDirection: Axis.vertical,
+                  //   // shrinkWrap: true,
+                  //   itemCount: widget.inventory.items.length,
+                  //   itemBuilder: (context, index) => FutureBuilder(
+                  //       future: _db.getItemType(
+                  //           widget.inventory.items[index]["itemTypeID"]),
+                  //       builder: (context, snapshot) {
+                  //         if (snapshot.hasData) {
+                  //           var itemType = snapshot.data as ItemType;
+                  //           return ListTile(
+                  //             title: Text(itemType!.name),
+                  //           );
+                  //         } else {
+                  //           return Container();
+                  //         }
+                  //       }),
+                  // )),
+                  )
             ],
           )),
       floatingActionButton: ExpandableFab(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/db/db_handler.dart';
 
-class MyDialog extends StatelessWidget {
+class RemoveItemDialog extends StatelessWidget {
   final String itemName;
   final String documentId;
   final Function() removeFunc;
-  const MyDialog(
+  const RemoveItemDialog(
       {Key? key,
       required this.itemName,
       required this.documentId,

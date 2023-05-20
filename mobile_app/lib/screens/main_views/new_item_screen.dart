@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/db/data_models/item.dart';
-import 'package:mobile_app/db/data_models/item_type.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/item_arguments.dart';
 import 'package:mobile_app/widgets/add_items/found_item.dart';
@@ -16,12 +15,12 @@ class NewItemScreen extends StatefulWidget {
 class _NewItemScreenState extends State<NewItemScreen> {
   //TODO: Here handle case whether we found data in database or in local memory.
   final _db = DBHandler();
-  void _buildDialog(ItemType item) async {
+  void _buildDialog(Item item) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Item ${item.name} found in database'),
+          title: Text('Item ${item.title} found in database'),
           content: Text(' ${item.description}\n'
               // ' ${item.amount}\n'
               'What do you wish to do?'),
@@ -65,10 +64,12 @@ class _NewItemScreenState extends State<NewItemScreen> {
   @override
   Widget build(BuildContext context) {
     // final args = ModalRoute.of(context)!.settings.arguments as ItemBarcode;
+    // print(args);
     return Scaffold(
         appBar: AppBar(
           title: const Text("New item"),
         ),
+        // body:  //ItemForm (barcode:  widget.barcode.barcode,),
         body: FutureBuilder<dynamic>(
             future: _db.checkIfBarcodeExists(widget.barcode.barcode),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
