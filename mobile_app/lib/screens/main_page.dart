@@ -34,7 +34,8 @@ class _LoggedInViewState extends State<LoggedInView> {
         icon: Icon(
           Icons.center_focus_strong_outlined,
         ),
-        label: "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
+        label:
+            "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
   ];
 
   @override

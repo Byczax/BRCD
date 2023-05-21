@@ -1,11 +1,15 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/pdf/pdf_service.dart';
 
 import 'package:mobile_app/widgets/items_builder.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class InventoryDetailsView extends StatefulWidget {
   const InventoryDetailsView({Key? key, required this.inventory})
@@ -28,9 +32,9 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
         widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
     void onRemove(Item item) async {
       await _db.removeFromInventory(item, widget.inventory);
-      setState(() {
-      });
+      setState(() {});
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.inventory.title),
@@ -53,7 +57,7 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
               Flexible(
                   child: ItemsBuilder(
                 items: items,
-                    onRemove: onRemove,
+                onRemove: onRemove,
               )
 
                   // Flexible(
@@ -106,12 +110,37 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
             child: const Icon(Icons.edit_document),
             onPressed: () async {
               final data = await service.createInvoice(items);
-              service.savePdfFile("invoice_$number", data);
+              uploadPdfToFirebase(data, number);
+              // service.savePdfFile("invoice_$number", data);
               number++;
             },
           ),
         ],
       ),
     );
+  }
+
+  void uploadPdfToFirebase(Uint8List pdfBytes, int number) async {
+    String date = getDate();
+    final storageRef =
+        FirebaseStorage.instance.ref().child('reports/report$number$date.pdf');
+
+    final uploadTask = storageRef.putData(pdfBytes);
+
+    final snapshot = await uploadTask.whenComplete(() => null);
+    final downloadUrl = await snapshot.ref.getDownloadURL();
+
+    print('PDF uploaded to Firebase Storage: $downloadUrl');
+  }
+
+  String getDate() {
+    DateTime now = DateTime.now();
+
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    String formattedTime = DateFormat('HH:mm').format(now);
+
+    String dateTimeString = '$formattedDate-$formattedTime';
+
+    return dateTimeString;
   }
 }

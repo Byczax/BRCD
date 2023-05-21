@@ -39,7 +39,10 @@ class _ItemsListViewState extends State<ItemsListView> {
                   child: Text("You have no inventories"),
                 );
               }
-              return ItemsBuilder(items: inventories, onRemove: onRemove,);
+              return ItemsBuilder(
+                items: inventories,
+                onRemove: onRemove,
+              );
             }
           })),
       floatingActionButtonLocation: ExpandableFab.location,

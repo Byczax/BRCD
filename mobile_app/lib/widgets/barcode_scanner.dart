@@ -12,7 +12,6 @@ class BarcodeScan extends StatefulWidget {
 }
 
 class _BarcodeScanState extends State<BarcodeScan> {
-
   Future<void> scanBarcodeNormal() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.

@@ -236,11 +236,11 @@ class PdfInvoiceService {
                             textAlign: pw.TextAlign.right,
                             style: pw.TextStyle(font: font)))),
                 pw.Expanded(
-                  child: pw.Padding(
-                      padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Text(element.myPrice,
-                        textAlign: pw.TextAlign.right,
-                        style: pw.TextStyle(font: font)))),
+                    child: pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Text(element.myPrice,
+                            textAlign: pw.TextAlign.right,
+                            style: pw.TextStyle(font: font)))),
                 pw.Expanded(
                     child: pw.Text(element.comments,
                         textAlign: pw.TextAlign.center,
@@ -289,12 +289,12 @@ class PdfInvoiceService {
     await OpenDocument.openDocument(filePath: filePath);
   }
 
-String getSubTotal(List<Item> products) {
-  return products
-      .fold(0.0,
-          (double prev, element) => prev + (element.amount * element.price!))
-      .toStringAsFixed(2);
-}
+  String getSubTotal(List<Item> products) {
+    return products
+        .fold(0.0,
+            (double prev, element) => prev + (element.amount * element.price!))
+        .toStringAsFixed(2);
+  }
 
 // String getVatTotal(List<Item> products) {
 //   return products

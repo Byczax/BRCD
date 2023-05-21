@@ -102,10 +102,14 @@ class DBHandler {
   }
 
   Future<bool> removeFromInventory(Item item, Inventory inventory) async {
-    final list = await _db.collection(inventoryName).doc(inventory.documentId).get();
+    final list =
+        await _db.collection(inventoryName).doc(inventory.documentId).get();
     final items = list.get("items") as List<dynamic>;
-    final filtered =items.where((e) => e["barcode"] != item.barcode).toList();
-    await _db.collection(inventoryName).doc(inventory.documentId).update({"items": filtered});
+    final filtered = items.where((e) => e["barcode"] != item.barcode).toList();
+    await _db
+        .collection(inventoryName)
+        .doc(inventory.documentId)
+        .update({"items": filtered});
     return true;
   }
 }
