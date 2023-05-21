@@ -79,11 +79,6 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
       floatingActionButton: ExpandableFab(
         children: [
           FloatingActionButton.small(
-            heroTag: null,
-            child: const Icon(Icons.edit),
-            onPressed: () async {},
-          ),
-          FloatingActionButton.small(
               heroTag: null,
               child: const Icon(Icons.edit_document),
               onPressed: () async {
