@@ -31,7 +31,7 @@ void main() {
     final bottomNavigationBar = find.byKey(const Key("navigation-bar"));
     expect(bottomNavigationBar, findsOneWidget);
 
-    await tester.tap(find.byIcon( Icons.center_focus_strong_outlined));
+    await tester.tap(find.byIcon(Icons.center_focus_strong_outlined));
     expect(find.text("Scanner"), findsOneWidget);
 
     await tester.tap(find.byIcon(Icons.settings));

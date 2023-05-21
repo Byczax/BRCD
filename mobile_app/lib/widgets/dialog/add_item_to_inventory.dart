@@ -8,9 +8,8 @@ class AddItemToInventoryDialog extends StatelessWidget {
   final _padding = 20.0;
   Item? chosenItem;
 
-
   Widget _dropDownButton<T>(
-      T? value, Future<List<T>> list, Function(T) onChange) =>
+          T? value, Future<List<T>> list, Function(T) onChange) =>
       FutureBuilder<List<T>>(
           future: list,
           builder: (BuildContext context, AsyncSnapshot<List<T>> snapshot) {
@@ -26,9 +25,9 @@ class AddItemToInventoryDialog extends StatelessWidget {
                     value: value,
                     items: snapshot.data!
                         .map((e) => DropdownMenuItem(
-                      value: e,
-                      child: Text(e.toString()),
-                    ))
+                              value: e,
+                              child: Text(e.toString()),
+                            ))
                         .toList(),
                     onChanged: (T? value) {
                       onChange(value!);
@@ -45,17 +44,15 @@ class AddItemToInventoryDialog extends StatelessWidget {
             }
           });
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text("Add item to inventory"),
-      content: SizedBox(height: 100, child:_dropDownButton(chosenItem, items, (p0) {
-        chosenItem = p0;
-      })),
+      content: SizedBox(
+          height: 100,
+          child: _dropDownButton(chosenItem, items, (p0) {
+            chosenItem = p0;
+          })),
       actions: [
         TextButton(
           style: TextButton.styleFrom(

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:easy_search_bar/easy_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/main_views/add_new_item.dart';
 import 'package:mobile_app/screens/main_views/inventory_list_view.dart';
@@ -5,6 +8,7 @@ import 'package:mobile_app/screens/main_views/items_list_view.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/google_sign_in.dart';
+import '../utils/search_model.dart';
 
 class LoggedInView extends StatefulWidget {
   const LoggedInView({Key? key}) : super(key: key);
@@ -15,6 +19,8 @@ class LoggedInView extends StatefulWidget {
 
 class _LoggedInViewState extends State<LoggedInView> {
   int _currentIndex = 0;
+
+  SearchModel searchModel = SearchModel();
 
   final List<Widget> _screens = [
     const InventoryList(),
@@ -34,27 +40,46 @@ class _LoggedInViewState extends State<LoggedInView> {
         icon: Icon(
           Icons.center_focus_strong_outlined,
         ),
-        label: "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
+        label:
+            "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
   ];
 
   @override
   Widget build(BuildContext context) {
+    var logoutButton = IconButton(
+      icon: const Icon(Icons.logout),
+      onPressed: () {
+        final provider =
+            Provider.of<GoogleSignInProvider>(context, listen: false);
+        provider.logout();
+      },
+    );
+
+    var bar = _currentIndex == 0 || _currentIndex == 1
+        ? EasySearchBar(
+            title: Text(_appBarTitles[_currentIndex]),
+            actions: [logoutButton],
+            onSearch: (query) => searchModel.setSearchQueryTo(query),
+            putActionsOnRight: true,
+            foregroundColor: Colors.white,
+            isFloating: false,
+          )
+        : AppBar(
+            title: Text(_appBarTitles[_currentIndex]),
+            actions: [logoutButton],
+            centerTitle: false,
+          );
+
     return Scaffold(
-      appBar: AppBar(title: Text(_appBarTitles[_currentIndex]), actions: [
-        IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () {
-            final provider =
-                Provider.of<GoogleSignInProvider>(context, listen: false);
-            provider.logout();
-          },
+      appBar: bar as PreferredSizeWidget?,
+      body: ChangeNotifierProvider(
+        create: (context) => searchModel,
+        child: IndexedStack(
+          key: const Key("stack"),
+          index: _currentIndex,
+          alignment: AlignmentDirectional.center,
+          children: _screens,
         ),
-      ]),
-      body: IndexedStack(
-        key: const Key("stack"),
-        index: _currentIndex,
-        alignment: AlignmentDirectional.center,
-        children: _screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
           key: const Key("navigation-bar"),
