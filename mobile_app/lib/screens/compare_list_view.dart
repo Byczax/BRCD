@@ -22,6 +22,7 @@ class CompareListViews extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Compared lists"),
+        centerTitle: true,
       ),
       body: ListView.builder(
           itemCount: inCommon.length,
