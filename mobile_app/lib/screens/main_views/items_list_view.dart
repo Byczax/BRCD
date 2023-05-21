@@ -4,6 +4,9 @@ import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:mobile_app/widgets/items_builder.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/search_model.dart';
 
 class ItemsListView extends StatefulWidget {
   const ItemsListView({Key? key}) : super(key: key);
@@ -28,19 +31,26 @@ class _ItemsListViewState extends State<ItemsListView> {
       body: FutureBuilder(
           future: items,
           builder: ((context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              List<Item> inventories = snapshot.data as List<Item>;
-              if (inventories.isEmpty) {
-                return const Center(
-                  child: Text("You have no items"),
-                );
-              }
-              return ItemsBuilder(items: inventories, onRemove: onRemove,);
-            }
+            return Consumer<SearchModel>(
+                builder: (context, searchModel, child) {
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    List<Item> items = snapshot.data as List<Item>;
+                    if (items.isEmpty) {
+                      return const Center(
+                        child: Text("You have no items"),
+                      );
+                    }
+                    items = items
+                        .where((item) => item.title.toLowerCase().contains(searchModel.searchBarQuery))
+                        .toList();
+                    return ItemsBuilder(items: items, onRemove: onRemove,);
+                  }
+                }
+            );
           })),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(

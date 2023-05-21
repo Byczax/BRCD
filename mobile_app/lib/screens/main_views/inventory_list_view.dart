@@ -3,9 +3,13 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/screens/compare_list_view.dart';
+import 'package:mobile_app/screens/main_page.dart';
 import 'package:mobile_app/widgets/add_inventory.dart';
 import 'package:mobile_app/screens/inventory_details_view.dart';
 import 'package:mobile_app/widgets/dialog/comparer_dialog.dart';
+import 'package:provider/provider.dart';
+
+import '../../utils/search_model.dart';
 
 class InventoryList extends StatefulWidget {
   const InventoryList({Key? key}) : super(key: key);
@@ -30,36 +34,45 @@ class _InventoryListState extends State<InventoryList> {
       body: FutureBuilder(
           future: inventories,
           builder: ((context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              List<Inventory> inventories = snapshot.data as List<Inventory>;
-              if (inventories.isEmpty) {
-                return const Center(
-                  child: Text("You have no inventories"),
-                );
-              }
-              return ListView.builder(
-                  itemCount: inventories.length,
-                  itemBuilder: (context, index) => ListTile(
-                        title: Text(inventories[index].title),
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InventoryDetailsView(
-                                      inventory: inventories[index])));
-                        },
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            onRemove(inventories[index].documentId);
-                          },
-                        ),
-                      ));
-            }
+            return Consumer<SearchModel>(
+              builder: (context, searchModel, child) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else {
+                  List<Inventory> inventories = snapshot.data as List<Inventory>;
+                  if (inventories.isEmpty) {
+                    return const Center(
+                      child: Text("You have no inventories"),
+                    );
+                  }
+                  inventories = inventories
+                      .where((inventory) => inventory.title.toLowerCase().contains(searchModel.searchBarQuery))
+                      .toList();
+                  return ListView.builder(
+                      itemCount: inventories.length,
+                      itemBuilder: (context, index) =>
+                          ListTile(
+                            title: Text(inventories[index].title),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          InventoryDetailsView(
+                                              inventory: inventories[index])));
+                            },
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                onRemove(inventories[index].documentId);
+                              },
+                            ),
+                          ));
+                }
+              },
+            );
           })),
       floatingActionButton: ExpandableFab(
         children: [
