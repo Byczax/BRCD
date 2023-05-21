@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:mobile_app/db/data_models/inventory.dart';
 import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
+import 'package:mobile_app/widgets/dialog/add_item_to_inventory.dart';
 import 'package:mobile_app/widgets/items_builder.dart';
 
 class InventoryDetailsView extends StatefulWidget {
@@ -47,37 +49,38 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
                 items: items,
                     onRemove: onRemove,
               )
-
-                  // Flexible(
-                  //     child: ListView.builder(
-                  //   // scrollDirection: Axis.vertical,
-                  //   // shrinkWrap: true,
-                  //   itemCount: widget.inventory.items.length,
-                  //   itemBuilder: (context, index) => FutureBuilder(
-                  //       future: _db.getItemType(
-                  //           widget.inventory.items[index]["itemTypeID"]),
-                  //       builder: (context, snapshot) {
-                  //         if (snapshot.hasData) {
-                  //           var itemType = snapshot.data as ItemType;
-                  //           return ListTile(
-                  //             title: Text(itemType!.name),
-                  //           );
-                  //         } else {
-                  //           return Container();
-                  //         }
-                  //       }),
-                  // )),
                   )
             ],
           )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // showDialog(context: context, builder: (BuildContext builder) =>
-          //     Dialog(
-          //
-          //     ))
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: ExpandableFab(
+        children: [
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.edit),
+            onPressed: () async {
+
+            },
+          ),
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.add),
+            onPressed: () async {
+              var temp = await showDialog(
+                  context: context,
+                  builder: (BuildContext builder) => AddItemToInventoryDialog(
+                      items: _db.getItems(),)
+              );
+              if (temp != null){
+                temp = temp as Item;
+                temp = temp.toMap();
+                temp["listID"] = widget.inventory.documentId;
+                _db.addToInventory(temp);
+                setState(() {
+                });
+              }
+            },
+          ),
+        ],
       ),
     );
   }
