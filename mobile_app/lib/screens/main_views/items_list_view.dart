@@ -36,7 +36,7 @@ class _ItemsListViewState extends State<ItemsListView> {
               List<Item> inventories = snapshot.data as List<Item>;
               if (inventories.isEmpty) {
                 return const Center(
-                  child: Text("You have no inventories"),
+                  child: Text("You have no items"),
                 );
               }
               return ItemsBuilder(items: inventories, onRemove: onRemove,);
