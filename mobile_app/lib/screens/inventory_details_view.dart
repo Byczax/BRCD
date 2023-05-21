@@ -84,19 +84,14 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
             onPressed: () async {},
           ),
           FloatingActionButton.small(
-            heroTag: null,
-            child: const Icon(Icons.add),
-            onPressed: () {},
-          ),
-          FloatingActionButton.small(
-            heroTag: null,
-            child: const Icon(Icons.edit_document),
-            onPressed: () async {
-              final data = await service.createInvoice(items);
-              uploadPdfToFirebase(data, number);
-              // service.savePdfFile("invoice_$number", data);
-              number++;
-            }),
+              heroTag: null,
+              child: const Icon(Icons.edit_document),
+              onPressed: () async {
+                final data = await service.createInvoice(items);
+                uploadPdfToFirebase(data, number);
+                // service.savePdfFile("invoice_$number", data);
+                number++;
+              }),
           FloatingActionButton.small(
             heroTag: null,
             child: const Icon(Icons.add),
