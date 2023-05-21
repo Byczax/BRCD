@@ -117,7 +117,7 @@ class _FoundScreenState extends State<FoundScreen> {
                   child: Text(widget.item.description),
                 )),
             Text(
-              "Unit: ${widget.item.unit} Quantity: ${widget.item.quantity}",
+              "Unit: ${widget.item.unit} Quantity: ${widget.item.amount}",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             _dropDownButton(inventory, _db.getInventories(), onChange),

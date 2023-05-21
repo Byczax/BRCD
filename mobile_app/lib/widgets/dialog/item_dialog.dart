@@ -41,7 +41,7 @@ class ItemDialog extends StatelessWidget {
               Divider(
                 color: Colors.black,
               ),
-              Text("Quantity: ${item.quantity}"),
+              Text("Quantity: ${item.amount}"),
               Divider(
                 color: Colors.black,
               ),
