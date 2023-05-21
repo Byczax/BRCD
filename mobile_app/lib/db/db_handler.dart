@@ -71,11 +71,14 @@ class DBHandler {
 
   Future<List<Item>> getItems() async {
     QuerySnapshot documentsSnapshot = await _db.collection(itemName).get();
-    final inventories = documentsSnapshot.docs.map((json) {
-      var temp = Item.fromJSON(json.data() as Map<String, dynamic>);
-      temp.itemId = json.id;
-      return temp;
-    }).toList();
+    final inventories = documentsSnapshot.docs
+        .map((json) {
+          var temp = Item.fromJSON(json.data() as Map<String, dynamic>);
+          temp.itemId = json.id;
+          return temp;
+        })
+        .where((element) => element.authorId == _userUID)
+        .toList();
     return inventories;
   }
 

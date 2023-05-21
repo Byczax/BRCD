@@ -54,6 +54,7 @@ dependencies:
       ref: 1.0.1
   firebase_storage: ^11.2.1
   url_launcher: ^6.1.11
+  easy_search_bar: ^2.5.0
 
 dev_dependencies:
   flutter_test:

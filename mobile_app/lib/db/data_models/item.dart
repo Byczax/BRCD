@@ -36,4 +36,10 @@ class Item {
       data["quantity"],
       data["removedDate"],
       1);
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return title;
+  }
 }
