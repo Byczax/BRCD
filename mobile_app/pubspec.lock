@@ -14,7 +14,6 @@ packages:
     description:
       name: archive
       sha256: "0c8368c9b3f0abbc193b9d6133649a614204b528982bebc7026372d61677ce3a"
-      sha256: "8eb354cb8ebed8a9fdf63699d15deff533bc133128898afaf754926b57d611b6"
       url: "https://pub.dev"
     source: hosted
     version: "3.3.7"
@@ -337,8 +336,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  intl:
+  image:
     dependency: transitive
+    description:
+      name: image
+      sha256: a72242c9a0ffb65d03de1b7113bc4e189686fc07c7147b8b41811d0dd0e0d9bf
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.17"
+  intl:
+    dependency: "direct main"
     description:
       name: intl
       sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
@@ -414,10 +421,10 @@ packages:
     dependency: "direct main"
     description:
       name: open_document
-      sha256: "790bcca260be0b06054cb3887f40bb9c7fdb09c570830c9692e09e20ea288a9b"
+      sha256: ab19820741ab4002670c64a39c571150198313fa350ba1a5d8884bc172354547
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6+2"
+    version: "1.0.6+1"
   open_file:
     dependency: "direct main"
     description:

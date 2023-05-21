@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:open_document/open_document.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,8 +7,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
-import 'model/product.dart';
-import 'package:merge_table/merge_table.dart';
+import '../../db/data_models/item.dart';
 
 class CustomRow {
   final String position;
@@ -42,20 +40,20 @@ class PdfInvoiceService {
     return pdf.save();
   }
 
-  Future<Uint8List> createInvoice(List<Product> soldProducts) async {
+  Future<Uint8List> createInvoice(List<Item> soldProducts) async {
     final pdf = pw.Document();
 
     final List<CustomRow> elements = [
       for (var product in soldProducts)
         CustomRow(
             soldProducts.indexOf(product).toString(),
-            product.identifier,
+            product.title,
             product.description,
             product.unit,
             product.amount.toStringAsFixed(2),
-            product.price.toStringAsFixed(2),
-            (product.price * product.amount).toStringAsFixed(2),
-            product.remarks),
+            product.price!.toStringAsFixed(2),
+            (product.price! * product.amount).toStringAsFixed(2),
+            "uwag brak."),
       // CustomRow(
       //   "",
       //   "Sub Total",
@@ -185,24 +183,6 @@ class PdfInvoiceService {
         },
       ),
     );
-    // pdf.addPage(pw.Page(
-    //     pageFormat: PdfPageFormat.a4,
-    //     margin: const pw.EdgeInsets.fromLTRB(20, 20, 20, 20),
-    //     build: (pw.Context context) {
-    //       return Column(
-    //         children: [
-    //           MergeTable(rows: 5, columns: 5, borderColor: Colors.black),
-    //         ],
-    //       );
-    //       // return pw.Column(
-    //       //     children: [
-    //       //       pw.Text("A"),
-    //       //       MergeTable(rows: 5, columns: 5, borderColor: Colors.black);
-    //       //       // createdCustomTable()
-    //       //     ]
-    //       // );
-    //     }
-    // ));
     return pdf.save();
   }
 
@@ -244,17 +224,23 @@ class PdfInvoiceService {
                         textAlign: pw.TextAlign.center,
                         style: pw.TextStyle(font: font))),
                 pw.Expanded(
-                    child: pw.Text(element.count,
-                        textAlign: pw.TextAlign.right,
-                        style: pw.TextStyle(font: font))),
+                    child: pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Text(element.count,
+                            textAlign: pw.TextAlign.right,
+                            style: pw.TextStyle(font: font)))),
                 pw.Expanded(
-                    child: pw.Text(element.price,
-                        textAlign: pw.TextAlign.right,
-                        style: pw.TextStyle(font: font))),
+                    child: pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Text(element.price,
+                            textAlign: pw.TextAlign.right,
+                            style: pw.TextStyle(font: font)))),
                 pw.Expanded(
+                  child: pw.Padding(
+                      padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Text(element.myPrice,
                         textAlign: pw.TextAlign.right,
-                        style: pw.TextStyle(font: font))),
+                        style: pw.TextStyle(font: font)))),
                 pw.Expanded(
                     child: pw.Text(element.comments,
                         textAlign: pw.TextAlign.center,
@@ -295,47 +281,6 @@ class PdfInvoiceService {
     ]);
   }
 
-  MergeTable createdCustomTable() {
-    return MergeTable(
-      borderColor: Colors.black,
-      alignment: MergeTableAlignment.center,
-      columns: [
-        MColumn(header: "Pump"),
-        MColumn(header: "Product"),
-        MColumn(header: "Seal"),
-        MMergedColumns(
-          header: "Reading",
-          columns: ["Before", "Then", "After"],
-        ),
-        MColumn(header: "Write"),
-      ],
-      rows: [
-        [
-          MRow(const Text("1")),
-          MRow(const Text("2")),
-          MRow(const Text("3")),
-          MMergedRows([
-            const Text("4"),
-            const Text("5"),
-            const Text("8"),
-          ]),
-          MRow(const Text("6")),
-        ],
-        [
-          MRow(const Text("1")),
-          MRow(const Text("2")),
-          MRow(const Text("3")),
-          MMergedRows([
-            const Text("4"),
-            const Text("5"),
-            const Text("8"),
-          ]),
-          MRow(const Text("6")),
-        ],
-      ],
-    );
-  }
-
   Future<void> savePdfFile(String fileName, Uint8List byteList) async {
     final output = await getTemporaryDirectory();
     var filePath = "${output.path}/$fileName.pdf";
@@ -344,14 +289,14 @@ class PdfInvoiceService {
     await OpenDocument.openDocument(filePath: filePath);
   }
 
-  String getSubTotal(List<Product> products) {
-    return products
-        .fold(0.0,
-            (double prev, element) => prev + (element.amount * element.price))
-        .toStringAsFixed(2);
-  }
+String getSubTotal(List<Item> products) {
+  return products
+      .fold(0.0,
+          (double prev, element) => prev + (element.amount * element.price!))
+      .toStringAsFixed(2);
+}
 
-// String getVatTotal(List<Product> products) {
+// String getVatTotal(List<Item> products) {
 //   return products
 //       .fold(
 //         0.0,

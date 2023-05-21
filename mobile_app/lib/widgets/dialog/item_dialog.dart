@@ -25,7 +25,7 @@ class ItemDialog extends StatelessWidget {
           Divider(color: Colors.black,),
           Text("Scan date: ${formatter.format(DateTime.parse(item.createdDate))}"),
           Divider(color: Colors.black,),
-          Text("Quantity: ${item.quantity}" ),
+          Text("Quantity: ${item.amount}" ),
           Divider(color: Colors.black,),
           Text("Unit: ${item.unit}"),
         ],

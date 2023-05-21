@@ -5,7 +5,6 @@ import 'package:mobile_app/db/data_models/item.dart';
 import 'package:mobile_app/db/db_handler.dart';
 import 'package:mobile_app/utils/pdf/pdf_service.dart';
 
-import '../utils/pdf/model/product.dart';
 import 'package:mobile_app/widgets/items_builder.dart';
 
 class InventoryDetailsView extends StatefulWidget {
@@ -24,17 +23,6 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
   Widget build(BuildContext context) {
     final PdfInvoiceService service = PdfInvoiceService();
     int number = 0;
-
-    List<Product> products = [
-      Product("Oleju", "Szanowany olej Pana Makłowicza", "Litr", 20.7, 3.50,
-          "Papryka kolejna"),
-      Product("Gwoździe", "Zdzisław zgubił gwoździe", "szt.", 500, 0.30,
-          "Gwoździe do trumny"),
-      Product(
-          "Młotek", "Do wbijania gwoździ", "szt.", 2, 30.57, "dzięki, działa"),
-      Product("Hamburger", "Dla głodnego nic trudnego", "szt.", 5, 2.5,
-          "Przed inflacją to było"),
-    ];
 
     List<Item> items =
         widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
@@ -117,7 +105,7 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
             heroTag: null,
             child: const Icon(Icons.edit_document),
             onPressed: () async {
-              final data = await service.createInvoice(products);
+              final data = await service.createInvoice(items);
               service.savePdfFile("invoice_$number", data);
               number++;
             },
