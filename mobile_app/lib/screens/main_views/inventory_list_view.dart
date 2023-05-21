@@ -41,19 +41,21 @@ class _InventoryListState extends State<InventoryList> {
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<Inventory> inventories = snapshot.data as List<Inventory>;
+                  List<Inventory> inventories =
+                      snapshot.data as List<Inventory>;
                   if (inventories.isEmpty) {
                     return const Center(
                       child: Text("You have no inventories"),
                     );
                   }
                   inventories = inventories
-                      .where((inventory) => inventory.title.toLowerCase().contains(searchModel.searchBarQuery))
+                      .where((inventory) => inventory.title
+                          .toLowerCase()
+                          .contains(searchModel.searchBarQuery))
                       .toList();
                   return ListView.builder(
                       itemCount: inventories.length,
-                      itemBuilder: (context, index) =>
-                          ListTile(
+                      itemBuilder: (context, index) => ListTile(
                             title: Text(inventories[index].title),
                             onTap: () {
                               Navigator.push(

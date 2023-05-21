@@ -26,9 +26,9 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
         widget.inventory.items.map((e) => Item.fromJSON(e)).toList();
     void onRemove(Item item) async {
       await _db.removeFromInventory(item, widget.inventory);
-      setState(() {
-      });
+      setState(() {});
     }
+
     return Scaffold(
       appBar: EasySearchBar(
         title: Text(widget.inventory.title),
@@ -37,65 +37,62 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
         isFloating: false,
       ),
       body: ChangeNotifierProvider(
-        create: (context) => _searchModel,
-        child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 150,
-                  child: Text(widget.inventory.description),
-                ),
-                Text(
-                  "Items",
-                  style: Theme.of(context).textTheme.headlineMedium,
-                  textAlign: TextAlign.left,
-                ),
-                Flexible(
-                  child: Consumer<SearchModel>(
-                    builder: (context, searchModel, child) =>
-                      ItemsBuilder(
-                        items: items.where((item) => item.title.toLowerCase().contains(searchModel.searchBarQuery)).toList(),
-                        onRemove: onRemove,
-                      )
-                  )
-                )
-              ],
-            )
-          )
-        ),
-        floatingActionButton: ExpandableFab(
-          children: [
-            FloatingActionButton.small(
-              heroTag: null,
-              child: const Icon(Icons.edit),
-              onPressed: () async {
-
-              },
-            ),
-            FloatingActionButton.small(
-              heroTag: null,
-              child: const Icon(Icons.add),
-              onPressed: () async {
-                var temp = await showDialog(
-                    context: context,
-                    builder: (BuildContext builder) => AddItemToInventoryDialog(
-                        items: _db.getItems(),)
-                );
-                if (temp != null){
-                  temp = temp as Item;
-                  temp = temp.toMap();
-                  temp["listID"] = widget.inventory.documentId;
-                  _db.addToInventory(temp);
-                  setState(() {
-                  });
-                }
-              },
-            ),
-          ],
-        ),
-      );
+          create: (context) => _searchModel,
+          child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    child: Text(widget.inventory.description),
+                  ),
+                  Text(
+                    "Items",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    textAlign: TextAlign.left,
+                  ),
+                  Flexible(
+                      child: Consumer<SearchModel>(
+                          builder: (context, searchModel, child) =>
+                              ItemsBuilder(
+                                items: items
+                                    .where((item) => item.title
+                                        .toLowerCase()
+                                        .contains(searchModel.searchBarQuery))
+                                    .toList(),
+                                onRemove: onRemove,
+                              )))
+                ],
+              ))),
+      floatingActionButton: ExpandableFab(
+        children: [
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.edit),
+            onPressed: () async {},
+          ),
+          FloatingActionButton.small(
+            heroTag: null,
+            child: const Icon(Icons.add),
+            onPressed: () async {
+              var temp = await showDialog(
+                  context: context,
+                  builder: (BuildContext builder) => AddItemToInventoryDialog(
+                        items: _db.getItems(),
+                      ));
+              if (temp != null) {
+                temp = temp as Item;
+                temp = temp.toMap();
+                temp["listID"] = widget.inventory.documentId;
+                _db.addToInventory(temp);
+                setState(() {});
+              }
+            },
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -17,7 +17,6 @@ class LoggedInView extends StatefulWidget {
   State<LoggedInView> createState() => _LoggedInViewState();
 }
 
-
 class _LoggedInViewState extends State<LoggedInView> {
   int _currentIndex = 0;
 
@@ -41,7 +40,8 @@ class _LoggedInViewState extends State<LoggedInView> {
         icon: Icon(
           Icons.center_focus_strong_outlined,
         ),
-        label: "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
+        label:
+            "Scan"), // const BottomNavigationBarItem(icon: Icon(Icons.logout), label: "Logout")
   ];
 
   @override
@@ -50,24 +50,25 @@ class _LoggedInViewState extends State<LoggedInView> {
       icon: const Icon(Icons.logout),
       onPressed: () {
         final provider =
-        Provider.of<GoogleSignInProvider>(context, listen: false);
+            Provider.of<GoogleSignInProvider>(context, listen: false);
         provider.logout();
       },
     );
 
     var bar = _currentIndex == 0 || _currentIndex == 1
         ? EasySearchBar(
-          title: Text(_appBarTitles[_currentIndex]),
-          actions: [logoutButton],
-          onSearch: (query) => searchModel.setSearchQueryTo(query),
-          putActionsOnRight: true,
-          foregroundColor: Colors.white,
-          isFloating: false,
-        ) : AppBar(
-          title: Text(_appBarTitles[_currentIndex]),
-          actions: [logoutButton],
-          centerTitle: false,
-        );
+            title: Text(_appBarTitles[_currentIndex]),
+            actions: [logoutButton],
+            onSearch: (query) => searchModel.setSearchQueryTo(query),
+            putActionsOnRight: true,
+            foregroundColor: Colors.white,
+            isFloating: false,
+          )
+        : AppBar(
+            title: Text(_appBarTitles[_currentIndex]),
+            actions: [logoutButton],
+            centerTitle: false,
+          );
 
     return Scaffold(
       appBar: bar as PreferredSizeWidget?,

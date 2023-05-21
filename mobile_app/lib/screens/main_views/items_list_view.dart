@@ -33,24 +33,28 @@ class _ItemsListViewState extends State<ItemsListView> {
           builder: ((context, snapshot) {
             return Consumer<SearchModel>(
                 builder: (context, searchModel, child) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    List<Item> items = snapshot.data as List<Item>;
-                    if (items.isEmpty) {
-                      return const Center(
-                        child: Text("You have no items"),
-                      );
-                    }
-                    items = items
-                        .where((item) => item.title.toLowerCase().contains(searchModel.searchBarQuery))
-                        .toList();
-                    return ItemsBuilder(items: items, onRemove: onRemove,);
-                  }
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                List<Item> items = snapshot.data as List<Item>;
+                if (items.isEmpty) {
+                  return const Center(
+                    child: Text("You have no items"),
+                  );
                 }
-            );
+                items = items
+                    .where((item) => item.title
+                        .toLowerCase()
+                        .contains(searchModel.searchBarQuery))
+                    .toList();
+                return ItemsBuilder(
+                  items: items,
+                  onRemove: onRemove,
+                );
+              }
+            });
           })),
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
