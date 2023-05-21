@@ -75,7 +75,7 @@ class DBHandler {
       var temp = Item.fromJSON(json.data() as Map<String, dynamic>);
       temp.itemId = json.id;
       return temp;
-    }).toList();
+    }).where((element) => element.authorId == _userUID).toList();
     return inventories;
   }
 
