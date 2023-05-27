@@ -1,5 +1,6 @@
 <script>
-	import { authHandlers, authStore } from "../stores/authStore";
+	import { authHandlers, authStore } from "$lib/stores/authStore";
+  import Files from "$lib/components/Files.svelte";
 
   // import {Auth} from "$lib/components/Auth.svelte";
   async function handleLogin() {
@@ -26,6 +27,8 @@
     <button on:click={handleLogout}>
       Logout with Google...
     </button>
+
+    <Files/>
   {:else}
     Not logged in
     <button on:click={handleLogin}>

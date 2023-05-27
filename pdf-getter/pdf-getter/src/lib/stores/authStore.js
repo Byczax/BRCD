@@ -1,6 +1,6 @@
 // import {} from "firebase/auth";
 import {writable} from "svelte/store";
-import { auth, googleProvider } from "../lib/firebase/firebase.client";
+import { auth, googleProvider } from "../firebase/firebase.client";
 import { signInWithPopup, signOut } from "firebase/auth";
 
 export const authStore = writable({
