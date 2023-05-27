@@ -55,7 +55,7 @@ class _InventoryListState extends State<InventoryList> {
                       .toList();
                   return ListView.builder(
                       itemCount: inventories.length,
-                      itemBuilder: (context, index) => ListTile(
+                      itemBuilder: (context, index) => Card( child:ListTile(
                             title: Text(inventories[index].title),
                             onTap: () {
                               Navigator.push(
@@ -71,7 +71,7 @@ class _InventoryListState extends State<InventoryList> {
                                 onRemove(inventories[index].documentId);
                               },
                             ),
-                          ));
+                          )));
                 }
               },
             );
