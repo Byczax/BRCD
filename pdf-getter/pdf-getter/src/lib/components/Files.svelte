@@ -1,6 +1,7 @@
 <script>
   import { getStorage, ref, getMetadata, listAll, getDownloadURL } from "firebase/storage";
   import { onMount } from "svelte";
+	import File from "./File.svelte";
 
   const storage = getStorage();
   $: files = []; 
@@ -26,15 +27,26 @@
   onMount(getFileData);
 </script>
 
-<h1>Files in firebase</h1>
-<h2>Number of files: {files.length}</h2>
-
-<ul>
-  {#each files as f, i}
-    <li>
-      <a href={f.url}  target="_blank" rel="noopener noreferrer"> 
-        f#{i+1}: {f.metadata.name}
-      </a>
-    </li>
-  {/each}
-</ul>
+<div class="card w-96 bg-base-100 shadow-xl">
+  <div class="card-body">
+    <h2 class="card-title">Report files</h2>
+    <p>Number of files: {files.length}</p>
+    
+    <!-- <ul>
+    </ul> -->
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>File name</th>
+          <th>Download</th>
+        </tr>
+      </thead>
+      <tbody>
+        {#each files as f, i}
+          <File file={f} index={i}/>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+</div>
