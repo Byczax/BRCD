@@ -4,6 +4,7 @@
     import {auth} from "$lib/firebase/firebase.client";
     import {authStore} from "$lib/stores/authStore";
 	import Login from "../lib/components/Login.svelte";
+	import ColorSwitcher from "../lib/components/ColorSwitcher.svelte";
     onMount(() => {
         const unsubscribe = auth.onAuthStateChanged((user)=>{
             console.log(user);
@@ -17,4 +18,5 @@
     <h2 class="text-4xl font-extrabold text-center">BRCD FILE SERVICE</h2>
     <Login/>
     <slot/>
+    <ColorSwitcher/>
 </main>
