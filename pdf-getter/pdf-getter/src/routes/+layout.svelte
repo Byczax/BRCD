@@ -1,4 +1,5 @@
 <script>
+    import "$lib/styles/global.css";
     import {onMount} from "svelte";
     import {auth} from "$lib/firebase/firebase.client";
     import {authStore} from "$lib/stores/authStore";
