@@ -11,7 +11,7 @@ class ItemsBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: items.length,
-        itemBuilder: (context, index) => ListTile(
+        itemBuilder: (context, index) => Card(child:ListTile(
               title: Text(items[index].title),
               onTap: () {
                 // TODO: Add here dialog which will display details
@@ -28,6 +28,6 @@ class ItemsBuilder extends StatelessWidget {
                   // onRemove(inventories[index].documentId);
                 },
               ),
-            ));
+            )));
   }
 }

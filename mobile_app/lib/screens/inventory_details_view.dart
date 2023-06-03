@@ -84,7 +84,9 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
               onPressed: () async {
                 final data = await service.createInvoice(items);
                 uploadPdfToFirebase(data, number);
-                // service.savePdfFile("invoice_$number", data);
+                showDialog(context: context, builder: (BuildContext builder) => AlertDialog(title: Text("Generated pdf"), actions: [TextButton(onPressed: (){
+                  Navigator.of(context).pop();
+                }, child: Text("Close"))],));
                 number++;
               }),
           FloatingActionButton.small(
@@ -119,7 +121,6 @@ class _InventoryDetailsViewState extends State<InventoryDetailsView> {
 
     final snapshot = await uploadTask.whenComplete(() => null);
     final downloadUrl = await snapshot.ref.getDownloadURL();
-
     print('PDF uploaded to Firebase Storage: $downloadUrl');
   }
 
